@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 
 const VideoCard = ({ info }) => {
-  //console.log(info, "info");
 
   const sideList = useSelector(store => store.app.smallCardVideos);
   const { snippet, statistics } = info;

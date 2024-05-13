@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
   const dispatch = useDispatch();
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
+
+  const getSearchSuggestions = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const json = await data.json();
+    setSearchSuggestions(json[1]);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => getSearchSuggestions(), 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
 
   return (
     <div className="grid grid-flow-col p-3  shadow-lg  ">
@@ -25,14 +44,32 @@ const Head = () => {
           alt="logo"
         />
       </div>
-      <div className="flex col-span-10 py-2 ml-72">
-        <input
-          type="text"
-          className="border border-gray-500 w-1/2 rounded-l-full"
-        />
-        <button className="border border-gray-500 rounded-r-full px-3 bg-gray-100">
-          🔍
-        </button>
+      <div className="flex flex-col col-span-10 py-2 ml-72">
+        <div>
+          <input
+            type="text"
+            className="border border-gray-500 w-1/2 rounded-l-full p-2 pl-4"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
+          />
+
+          <button className="border border-gray-500 rounded-r-full p-2 bg-gray-100">
+            🔍
+          </button>
+        </div>
+        {showSuggestions && (
+          <div className=" absolute mt-11 bg-white py-2 px-5 w-[28rem] shadow-lg rounded-lg border border-gray-100">
+            <ul>
+              {searchSuggestions?.map((s) => (
+                <li key={s} className=" p-2 shadow-sm hover:bg-gray-100">
+                  🔍 {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="flex col-span-1">
         <img

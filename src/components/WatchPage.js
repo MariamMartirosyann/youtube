@@ -17,7 +17,9 @@ const WatchPage = () => {
 
   const COMENTS_API =
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=50&videoId=" +
-    videoId + "&key=" + GOOGLE_COMENY_API_KEY;
+    videoId +
+    "&key=" +
+    GOOGLE_COMENY_API_KEY;
 
   const CHANNELS_API =
     "https://youtube.googleapis.com/youtube/v3/channelSections?part=snippet&channelId=UCRpjHHu8ivVWs73uxHlWwFA&key=" +
@@ -26,7 +28,6 @@ const WatchPage = () => {
   const getComents = async () => {
     const data = await fetch(COMENTS_API);
     const json = await data.json();
-    //console.log("coments", json.items);
     setComents(json.items);
   };
 
@@ -35,7 +36,6 @@ const WatchPage = () => {
     const json = await data.json();
     const filteredVideos = json.items.filter((video) => video.id !== videoId);
     const mianVideo = json.items.find((video) => video.id === videoId);
-    console.log("mianVideo", mianVideo);
     setVideos(filteredVideos);
     setBigVideo(mianVideo);
   };
@@ -43,7 +43,6 @@ const WatchPage = () => {
   const getChannels = async () => {
     const data = await fetch(CHANNELS_API);
     const json = await data.json();
-    //console.log("chanels", json);
   };
 
   useEffect(() => {
