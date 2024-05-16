@@ -1,11 +1,12 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {  RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import Body from "./components/Body";
-import Head from "./components/Head";
 import store from "./utils/store";
 import "./App.css";
 import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
+import SearchVideoList from "./components/SearchVideoList";
+
 
 const appRouter = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const appRouter = createBrowserRouter([
     children: [
       { path: "/", element: <MainContainer /> },
       { path: "watch", element: <WatchPage /> },
+      { path:"results", element:<SearchVideoList/>}
     ],
   },
 ]);
@@ -21,8 +23,9 @@ function App() {
   return (
     <Provider store={store}>
       <div>
-        <Head />
+        {/* <Head /> */}
         <RouterProvider router={appRouter} />
+        
       </div>
     </Provider>
   );

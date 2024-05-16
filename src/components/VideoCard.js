@@ -17,7 +17,7 @@ const VideoCard = ({ info }) => {
       <ul>
         <li className=" text-sm">{title}</li>
         <li>{channelTitle}</li>
-        <li>{statistics.viewCount} veiws</li>
+        <li>{statistics?.viewCount} veiws</li>
       </ul>
     </div>
   ) : (
@@ -25,12 +25,12 @@ const VideoCard = ({ info }) => {
       <img
         className=" rounded-lg"
         alt="thumbnail"
-        src={thumbnails.medium.url}
+        src={thumbnails?.medium.url}
       />
       <ul>
         <li className=" font-bold py-2">{title}</li>
         <li>{channelTitle}</li>
-        <li>{statistics.viewCount} veiws</li>
+        <li>{statistics?.viewCount} veiws</li>
       </ul>
     </div>
   );

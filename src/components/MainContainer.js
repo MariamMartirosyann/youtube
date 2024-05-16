@@ -1,14 +1,25 @@
-import React from 'react'
-import ButtonList from './ButtonList'
-import VideoContainer from './VideoContainer'
+import React, { useEffect } from "react";
+import ButtonList from "./ButtonList";
+import VideoContainer from "./VideoContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { openMenu, closeSideListVidos } from "../utils/appSlice";
+import SearchVideoList from "./SearchVideoList";
 
 const MainContainer = () => {
-    return (
-        <div >
-            <ButtonList />
-            <VideoContainer />
-        </div>
-    )
-}
+  const dispatch = useDispatch();
+  const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
 
-export default MainContainer
+  useEffect(() => {
+    dispatch(openMenu());
+    dispatch(closeSideListVidos());
+  }, []);
+
+  return (
+    <div className="flex flex-col">
+      <ButtonList />
+      {!isSearchListOpen ? <SearchVideoList /> : <VideoContainer />}
+    </div>
+  );
+};
+
+export default MainContainer;

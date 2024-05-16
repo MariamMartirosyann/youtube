@@ -1,16 +1,18 @@
-import React from 'react'
-import SideBar from './SideBar'
-import MainContainer from './MainContainer'
-import WatchPage from './WatchPage'
-import { Outlet } from 'react-router'
+import React from "react";
+import SideBar from "./SideBar";
+import Head from "./Head";
+import { Outlet } from "react-router";
 
 const Body = () => {
   return (
-    <div className='flex'>
-        <SideBar/>
-        <Outlet/>
+    <div className="flex flex-col">
+      <Head />
+      <div className="flex">
+        <SideBar />
+        <Outlet />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Body
+export default Body;

@@ -4,9 +4,8 @@ const ComentPage = ({ info }) => {
   if (!info) return;
   const { snippet } = info;
 
-
   return (
-    <div className="flex  mt-5">
+    <div className="flex  mt-5 ">
       <div className="w-50 h-50 mr-4   my-auto">
         {snippet?.topLevelComment?.snippet?.authorProfileImageUrl ? (
           <img
@@ -22,11 +21,11 @@ const ComentPage = ({ info }) => {
           />
         )}
       </div>
-      <ul className=" w ">
+      <ul className=" w-[900px] ">
         <li className=" font-bold my-1">
           {snippet?.topLevelComment?.snippet?.authorDisplayName}
         </li>
-        <li className=" text-lg " >
+        <li className=" text-lg ">
           {snippet?.topLevelComment?.snippet?.textDisplay}
         </li>
         <li className="my-1">
