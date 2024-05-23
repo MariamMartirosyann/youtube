@@ -13,7 +13,6 @@ const buttons = [
   { name: "Motivation" },
   { name: "Programming" },
   { name: "Political" },
-  { name: "For Kids" },
 ];
 
 const ButtonList = () => {

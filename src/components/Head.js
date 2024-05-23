@@ -2,18 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu, openSearchList, closeSearchList } from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
-import { chosenQueryResults } from "../utils/chosenQuerySlice";
+import { chosenQueryResults,resetChosenQueryResults } from "../utils/chosenQuerySlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { GOOGLE_API_KEY } from "../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
 
 const Head = () => {
-  console.log("rerender");
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
 
-  console.log("chosenQuery", chosenQuery);
+ // console.log("chosenQuery", chosenQuery);
 
   const dispatch = useDispatch();
 
@@ -43,11 +43,14 @@ const Head = () => {
   const searchCache = useSelector((store) => store.search);
 
   const getChosenQuery = async () => {
+    dispatch(resetChosenQueryResults())
     const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
     const json = await data.json();
-    console.log("search query list", json.items);
+    //console.log("search query list", json.items);
     dispatch(chosenQueryResults(json.items));
     dispatch(openSearchList());
+    setSearchSuggestions([])
+   
   };
 
   useEffect(() => {
@@ -115,7 +118,7 @@ const Head = () => {
                       setChosenQuery(s);
                       setSearchQuery(s);
                     }}
-                    key={new Date().getTime() / 1000}
+                   
                   >
                     🔍{s}
                   </li>
