@@ -218,3 +218,5 @@ export const findPrime = (num) => {
   }
   return primes[num - 1];
 };
+
+export const switchKeyValue = obj => Object.fromEntries(Object.entries(obj).map(([k, v]) => [v, k]))

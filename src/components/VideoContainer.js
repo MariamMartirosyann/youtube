@@ -1,24 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { YOUTUBE_VIDEOS_API } from "./../utils/constants";
+import {
+  YOUTUBE_VIDEOS_API,
+  GOOGLE_API_KEY,
+  buttonsId,
+} from "./../utils/constants";
+import { switchKeyValue } from "../utils/helper";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const VideoContainer = () => {
+  const category = useSelector((store) => store.category.categoryName);
+ console.log(category, "category click");
   const [videos, setVideos] = useState([]);
 
+  const a = switchKeyValue(buttonsId);
 
-   const getVideos = async () => {
-    const data = await fetch(YOUTUBE_VIDEOS_API);
+  console.log(a[category]);
+  const CategoryId = a[category];
+
+  const GET_BY_CATIGORY_ID =
+    "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=AM&videoCategoryId=" +
+    CategoryId +
+    "&key=" +
+    GOOGLE_API_KEY;
+
+  const GET_DATA_URL = CategoryId ? GET_BY_CATIGORY_ID : YOUTUBE_VIDEOS_API;
+
+  const getVideos = async () => {
+    const data = await fetch(GET_DATA_URL);
     const json = await data.json();
     setVideos(json?.items);
   };
-  
 
   useEffect(() => {
     getVideos();
-  }, []);
+  }, [CategoryId]);
 
-  if(!videos)return 
+  if (!videos) return;
   return (
     <div className=" flex flex-wrap">
       {videos.map((video) => (
