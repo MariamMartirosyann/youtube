@@ -11,12 +11,12 @@ const VideoCard = ({ info, live=false }) => {
   return sideList ? (
     <div className="p-2 m-2 w-110 flex flex-row ">
       <img
-        className=" w-1/3  rounded-lg mr-3"
+        className=" w-1/2  rounded-lg mr-3"
         alt="thumbnail"
         src={thumbnails.medium.url}
       />
       <ul>
-        <li className=" text-sm">{title}</li>
+        <li className=" text-sm">{title.slice(0,50)}</li>
         <li>{channelTitle}</li>
         <li>{statistics?.viewCount} veiws</li>
       </ul>
@@ -29,7 +29,7 @@ const VideoCard = ({ info, live=false }) => {
         src={thumbnails?.medium.url}
       />
       <ul>
-        <li className=" font-bold py-2">{title}</li>
+        <li className=" font-bold py-2">{title.slice(0,50)}</li>
         <li>{channelTitle}</li>
         <li>{statistics?.viewCount} veiws</li>
         {live&&<button className=" bg-red-600 text-white px-6 rounded-lg mt-1"> Live</button>}
