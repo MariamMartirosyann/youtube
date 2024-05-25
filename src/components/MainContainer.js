@@ -10,7 +10,7 @@ const MainContainer = () => {
   const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
 
   useEffect(() => {
-    dispatch(openMenu());
+  
     dispatch(closeSideListVidos());
   }, []);
 
