@@ -34,6 +34,7 @@ const ButtonList = () => {
   return (
     <div className="flex">
       <Button name={"All"} handleClick={()=>{dispatch(cleanCategory())}}/>
+      <Button name={"Live"} handleClick={()=>{setCategory("Live")}}/>
       {buttons?.map((b) => {
         return (
           <Button

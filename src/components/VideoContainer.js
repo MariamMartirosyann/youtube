@@ -9,11 +9,12 @@ import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
 const VideoContainer = () => {
+
+  const [videos, setVideos] = useState([]);
   const category = useSelector((store) => store.category.categoryName);
  console.log(category, "category click");
-  const [videos, setVideos] = useState([]);
-
   const a = switchKeyValue(buttonsId);
 
   console.log(a[category]);
@@ -40,11 +41,17 @@ const VideoContainer = () => {
   if (!videos) return;
   return (
     <div className=" flex flex-wrap">
-      {videos.map((video) => (
-        <Link to={"/watch?v=" + video.id} key={video.id}>
-          <VideoCard info={video} />
-        </Link>
-      ))}
+      {category === "Live"
+        ? videos.reverse().map((video) => (
+            <Link to={"/watch?v=" + video.id} key={video.id}>
+              <VideoCard info={video} live={category === "Live"} />
+            </Link>
+          ))
+        : videos.map((video) => (
+            <Link to={"/watch?v=" + video.id} key={video.id}>
+              <VideoCard info={video} />
+            </Link>
+          ))}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 
-const VideoCard = ({ info }) => {
+const VideoCard = ({ info, live=false }) => {
   console.log(info?.snippet?.categoryId,"info")
 
   const sideList = useSelector(store => store.app.smallCardVideos);
@@ -32,9 +32,19 @@ const VideoCard = ({ info }) => {
         <li className=" font-bold py-2">{title}</li>
         <li>{channelTitle}</li>
         <li>{statistics?.viewCount} veiws</li>
+        {live&&<button className=" bg-red-600 text-white px-6 rounded-lg mt-1"> Live</button>}
       </ul>
     </div>
   );
 };
 
+// for caces of AD
+export const AdVideoCard = ({ info }) => {
+  return (
+    <div className="p-1 m-1 border border-red-900">
+      <VideoCard info={info} />
+      <button className=" bg-red-600 text-white px-3  ml-3 py-1 rounded-lg"> AD</button>
+    </div>
+  );
+};
 export default VideoCard;

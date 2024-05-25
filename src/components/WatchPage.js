@@ -19,6 +19,9 @@ const WatchPage = () => {
 
   const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
   const seachVideoList = useSelector((store) => store.app.chosenQuery);
+  const islive = useSelector((store) => store.category.categoryName);
+  const live = islive === "Live" ? true : false;
+  console.log(live, "live");
 
   const COMENTS_API =
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=50&videoId=" +
@@ -53,17 +56,17 @@ const WatchPage = () => {
   useEffect(() => {
     dispatch(closeMenu());
     dispatch(sideListVidos());
-   // getComents();
-   // getChannels();
+    getComents();
+    getChannels();
   }, []);
 
-  // useEffect(() => {
-  //   getVideos();
-  // }, [videoId]);
+  useEffect(() => {
+    getVideos();
+  }, [videoId]);
 
-  // useEffect(() => {
-  //   getComents();
-  // }, [videoId]);
+  useEffect(() => {
+    getComents();
+  }, [videoId]);
 
   if (!videos) return;
 
@@ -102,22 +105,26 @@ const WatchPage = () => {
               </button>
             </li>
             <li>{bigVideo?.statistics?.viewCount} veiws</li>
-            <li className="  font-bold text-lg">Coments:</li>
+            {!live ?<li className="  font-bold text-lg">Coments:</li>:null}
           </ul>
-          {coments?.map((coment) => (
+          
+          {!live?coments?.map((coment) => (
             <ComentPage key={coment.id} info={coment} />
-          ))}
+          )):null}
         </div>
-        <div className="w-[450px]">
-          <LiveChat />
-        </div>
-        {/* <div className=" flex flex-col ">
-          {videos.map((video) => (
-            <Link to={"/watch?v=" + video.id} key={video.id}>
-              <VideoCard info={video} />
-            </Link>
-          ))}
-        </div> */}
+        {live ? (
+          <div className="w-[450px]">
+            <LiveChat />
+          </div>
+        ) : (
+          <div className=" flex flex-col ">
+            {videos.map((video) => (
+              <Link to={"/watch?v=" + video.id} key={video.id}>
+                <VideoCard info={video} />
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
