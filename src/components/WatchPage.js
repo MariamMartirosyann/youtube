@@ -21,7 +21,7 @@ const WatchPage = () => {
   const seachVideoList = useSelector((store) => store.app.chosenQuery);
   const islive = useSelector((store) => store.category.categoryName);
   const live = islive === "Live" ? true : false;
-  console.log(live, "live");
+  
 
   const COMENTS_API =
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=50&videoId=" +

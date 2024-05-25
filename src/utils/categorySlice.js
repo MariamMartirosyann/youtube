@@ -5,12 +5,13 @@ const categoryslice = createSlice({
   initialState: { categoryName: "" },
   reducers: {
     updateCategory: (state, action) => {
-      state.categoryName= action.payload;
-    },cleanCategory:(state)=>{
-        state.categoryName=""
-    }
+      state.categoryName = action.payload;
+    },
+    cleanCategory: (state) => {
+      state.categoryName = "";
+    },
   },
 });
 
-export const { updateCategory,cleanCategory } = categoryslice.actions;
+export const { updateCategory, cleanCategory } = categoryslice.actions;
 export default categoryslice.reducer;

@@ -2,18 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu, openSearchList, closeSearchList } from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
-import { chosenQueryResults,resetChosenQueryResults } from "../utils/chosenQuerySlice";
+import {
+  chosenQueryResults,
+  resetChosenQueryResults,
+} from "../utils/chosenQuerySlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { GOOGLE_API_KEY } from "../utils/constants";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Head = () => {
-  
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
 
- // console.log("chosenQuery", chosenQuery);
+  // console.log("chosenQuery", chosenQuery);
 
   const dispatch = useDispatch();
 
@@ -26,8 +28,6 @@ const Head = () => {
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
-
-  const navigate = useNavigate();
 
   const getSearchSuggestions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
@@ -43,14 +43,13 @@ const Head = () => {
   const searchCache = useSelector((store) => store.search);
 
   const getChosenQuery = async () => {
-    dispatch(resetChosenQueryResults())
+    dispatch(resetChosenQueryResults());
     const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
     const json = await data.json();
     //console.log("search query list", json.items);
     dispatch(chosenQueryResults(json.items));
     dispatch(openSearchList());
-    setSearchSuggestions([])
-   
+    setSearchSuggestions([]);
   };
 
   useEffect(() => {
@@ -118,7 +117,6 @@ const Head = () => {
                       setChosenQuery(s);
                       setSearchQuery(s);
                     }}
-                   
                   >
                     🔍{s}
                   </li>
@@ -129,13 +127,11 @@ const Head = () => {
         ) : null}
       </div>
       <div className="flex col-span-1">
-        <Link to="/results">
-          <img
-            className="h-8"
-            alt="user"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&usqp=CAU"
-          />
-        </Link>
+        <img
+          className="h-8"
+          alt="user"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&usqp=CAU"
+        />
       </div>
     </div>
   );

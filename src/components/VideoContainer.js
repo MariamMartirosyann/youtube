@@ -14,10 +14,11 @@ const VideoContainer = () => {
 
   const [videos, setVideos] = useState([]);
   const category = useSelector((store) => store.category.categoryName);
- console.log(category, "category click");
+ //console.log(category, "category click");
+
   const a = switchKeyValue(buttonsId);
 
-  console.log(a[category]);
+  //console.log(a[category]);
   const CategoryId = a[category];
 
   const GET_BY_CATIGORY_ID =

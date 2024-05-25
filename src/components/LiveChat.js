@@ -13,7 +13,6 @@ const LiveChat = () => {
 
   useEffect(() => {
     const i = setInterval(() => {
-      console.log("API Polling");
       dispatch(
         addMessage({
           name: generateRandomName(),
@@ -57,4 +56,4 @@ const LiveChat = () => {
 };
 
 export default LiveChat;
-//"Hay, Hayasatan, Hayreniq u Astvac 🙏🏻"
+
