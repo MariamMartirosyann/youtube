@@ -12,7 +12,7 @@ export const YOUTUBE_VIDEOS_API =
   export const GET_LIVE_STREAMS="https://youtube.googleapis.com/youtube/v3/liveStreams?part=snippet&id=UCrMkAcPOn87bxPlMZEoqrsw&key="+GOOGLE_API_KEY;
 
 
-export const YOUTUBE_SEARCH_API ="http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
+export const YOUTUBE_SEARCH_API ="https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
 
 
 export const buttonsId = {
