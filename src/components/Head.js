@@ -30,7 +30,9 @@ const Head = () => {
   };
 
   const getSearchSuggestions = async () => {
-    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery, {
+      referrerPolicy: "unsafe-url",
+    });
     const json = await data.json();
     setSearchSuggestions(json[1]);
     dispatch(
