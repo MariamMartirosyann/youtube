@@ -24,7 +24,7 @@ const WatchPage = () => {
   
 
   const COMENTS_API =
-    "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=50&videoId=" +
+    "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=" +
     videoId +
     "&key=" +
     GOOGLE_API_KEY;
