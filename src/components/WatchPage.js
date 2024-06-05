@@ -8,6 +8,7 @@ import { GOOGLE_API_KEY } from "../utils/constants";
 import ComentPage from "./ComentPage";
 import SearchVideo from "./SearchVideoList";
 import LiveChat from "./LiveChat";
+import CardShimmer from "./CardShimmer";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -126,6 +127,8 @@ const WatchPage = () => {
           </div>
         )}
       </div>
+
+    
     </>
   );
 };

@@ -8,13 +8,13 @@ import { switchKeyValue } from "../utils/helper";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import CardShimmer from "./CardShimmer";
+import ShimmerList from "./ShimmerList";
 
 const VideoContainer = () => {
-
   const [videos, setVideos] = useState([]);
   const category = useSelector((store) => store.category.categoryName);
- //console.log(category, "category click");
+  //console.log(category, "category click");
 
   const a = switchKeyValue(buttonsId);
 
