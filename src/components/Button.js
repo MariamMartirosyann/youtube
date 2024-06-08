@@ -6,8 +6,8 @@ const Button = ({ name, handleClick, active }) => {
       <button
         className={
           active
-            ? "px-10 py-2 m-3 rounded-lg bg-black text-white"
-            : "px-10 py-2 m-3 rounded-lg bg-gray-200"
+            ? " xl:px-10 lg:px-7  sm:px-5 px-3 py-2 m-2 rounded-lg bg-black text-white"
+            : "xl:px-10 lg:px-7  sm:px-5  px-3 py-2 m-2 rounded-lg bg-gray-200"
         }
         onClick={handleClick}
       >
