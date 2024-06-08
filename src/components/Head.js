@@ -8,16 +8,17 @@ import {
 } from "../utils/chosenQuerySlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { GOOGLE_API_KEY } from "../utils/constants";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
 
-  // console.log("chosenQuery", chosenQuery);
+  //console.log("chosenQuery", chosenQuery);
 
   const dispatch = useDispatch();
+  const navigate=useNavigate()
 
   const YOUTUBE_SEARCH_BY_QUERY_API =
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
@@ -44,14 +45,22 @@ const Head = () => {
 
   const searchCache = useSelector((store) => store.search);
 
+const handleSubmit=(event)=>{
+  event.preventDefault();
+  setChosenQuery(event.target[0].value)
+  navigate(`results/?search_query=${event.target[0].value}`)
+   //dispatch(resetChosenQueryResults());
+  //console.log(event.target[0].value,"event")
+}
   const getChosenQuery = async () => {
-    dispatch(resetChosenQueryResults());
+  
     const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
     const json = await data.json();
     //console.log("search query list", json.items);
     dispatch(chosenQueryResults(json.items));
     dispatch(openSearchList());
     setSearchSuggestions([]);
+    //dispatch(resetChosenQueryResults());
   };
 
   useEffect(() => {
@@ -95,18 +104,21 @@ const Head = () => {
       </div>
       <div className="flex flex-col col-span-10 py-2 ml-72">
         <div>
-          <input
-            type="text"
-            className="border border-gray-500 w-1/2 rounded-l-full p-2 pl-4"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-          />
+          <form onSubmit={handleSubmit} >
+            <input
+              type="text"
+              className="border border-gray-500 w-1/2 rounded-l-full p-2 pl-4"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+             onSubmit={handleSubmit}
+            />
 
-          <button className="border border-gray-500 rounded-r-full p-2 bg-gray-100">
-            🔍
-          </button>
+            <button type="submit" className="border border-gray-500 rounded-r-full p-2 bg-gray-100">
+              🔍
+            </button>
+          </form>
         </div>
         {!!searchSuggestions ? (
           <div className=" absolute mt-11 bg-white py-2 px-5 w-[28rem] shadow-lg rounded-lg border border-gray-100">

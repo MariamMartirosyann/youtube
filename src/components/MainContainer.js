@@ -10,13 +10,13 @@ const MainContainer = () => {
   const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
 
   useEffect(() => {
-  
     dispatch(closeSideListVidos());
   }, []);
 
   return (
     <div className="flex flex-col">
       <ButtonList />
+
       {!isSearchListOpen ? <SearchVideoList /> : <VideoContainer />}
     </div>
   );

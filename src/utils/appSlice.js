@@ -5,7 +5,8 @@ const appSlice=createSlice({
     initialState:{
         isMenuOpen:false,
         smallCardVideos:false,
-        isSearchListOpen:false
+        isSearchListOpen:false,
+        isError:null,
     },
     reducers:{
         toggleMenu:(state)=>{
@@ -28,10 +29,13 @@ const appSlice=createSlice({
         },
         closeSearchList:(state)=>{
             state.isSearchListOpen=false
+        },
+        setError:(state, action)=>{
+            state.isError=action.payload
         }
     }
 })
 
-export const{toggleMenu, closeMenu,sideListVidos,openSearchList,openMenu,closeSideListVidos,closeSearchList}=appSlice.actions
+export const{toggleMenu, closeMenu,sideListVidos,openSearchList,openMenu,closeSideListVidos,closeSearchList,setError}=appSlice.actions
 
 export default appSlice.reducer

@@ -17,7 +17,7 @@ const ButtonList = () => {
   const getButtons = async () => {
     const data = await fetch(CATEGORIES);
     const json = await data.json();
-    setButtons(json?.items?.slice(0, 10));
+    setButtons(json?.items?.slice(0, 5));
   };
 
   const findCategoryId = () => {
