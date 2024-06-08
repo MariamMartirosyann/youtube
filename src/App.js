@@ -1,10 +1,11 @@
 import React, { lazy, Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import Body from "./components/Body";
 import store from "./utils/store";
 import "./App.css";
 import ShimmerList from "./components/ShimmerList";
+import Error from "./components/Error";
 
 const MainContainer = lazy(() => import("./components/MainContainer"));
 const WatchPage = lazy(() => import("./components/WatchPage"));
@@ -40,10 +41,13 @@ const appRouter = createBrowserRouter([
         ),
       },
     ],
+    errorElement: <Error />,
   },
 ]);
 function App() {
+
   return (
+   
     <Provider store={store}>
       <RouterProvider router={appRouter} />
     </Provider>

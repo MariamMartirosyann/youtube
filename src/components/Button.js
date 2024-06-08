@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Button = ({ name, handleClick,active }) => {
- 
-
-
+const Button = ({ name, handleClick, active }) => {
   return (
     <div>
       <button
         className={
           active
-            ? "px-5 py-2 m-2 rounded-lg bg-black text-white"
-            : "px-5 py-2 m-2 rounded-lg bg-gray-200"
+            ? "px-10 py-2 m-3 rounded-lg bg-black text-white"
+            : "px-10 py-2 m-3 rounded-lg bg-gray-200"
         }
         onClick={handleClick}
-    
       >
         {name}
       </button>
