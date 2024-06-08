@@ -41,7 +41,7 @@ const VideoContainer = () => {
 
   if (!videos) return;
   return (
-    <div className=" flex flex-wrap">
+    <div className=" flex flex-wrap col-span-11 lg:col-span-9 md:col-span-8">
       {category === "Live"
         ? videos.reverse().map((video) => (
             <Link to={"/watch?v=" + video.id} key={video.id}>

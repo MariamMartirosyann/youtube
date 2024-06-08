@@ -14,7 +14,7 @@ const MainContainer = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col sm:w-[300px]">
       <ButtonList />
 
       {!isSearchListOpen ? <SearchVideoList /> : <VideoContainer />}
