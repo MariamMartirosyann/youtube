@@ -5,7 +5,7 @@ const ComentPage = ({ info }) => {
   const { snippet } = info;
 
   return (
-    <div className="flex  mt-5 ">
+    <div className="hidden mt-5  xl:block">
       <div className="w-50 h-50 mr-4   my-auto">
         {snippet?.topLevelComment?.snippet?.authorProfileImageUrl ? (
           <img
