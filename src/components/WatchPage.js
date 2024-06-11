@@ -73,48 +73,48 @@ const WatchPage = () => {
 
   return (
     <>
-      <div className="px-5 flex">
-        <div className="">
+      <div className="px-5 flex xl:flex-row flex-col">
+        <div className="xl:w-[80%] w-[100%]">
           <iframe
-            className="mb-5"
-            width="900"
-            height="500"
+            className="mb-5 w-[100%] lg:h-[500px] h-[300px]"
+          
             src={"https://www.youtube.com/embed/" + videoId}
             title="YouTube video player"
-            frameBorder="0"
+            
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
           <ul className=" text-lg w-600">
-            <li className=" font-bold text-lg my-4">
+            <li className=" font-bold sm:text-lg my-4  text-xs">
               {bigVideo?.snippet.title}
             </li>
-            <li>
+            <li className="sm:text-base text-xs">
               {bigVideo?.snippet.channelTitle}{" "}
-              <button className=" bg-black  text-white py-2 px-4 ml-12 rounded-full">
+              <button className=" bg-black  text-white py-2 sm:px-4 px-1 lg:ml-12 ml-2 rounded-full  sm:text-base text-xs">
                 Subscribe
               </button>
-              <button className=" bg-gray-200  border-gray-700 py-2 px-8 ml-12 rounded-l-full">
+              <button className=" bg-gray-200  border-gray-700 py-2 md:px-8 px-3 lg:ml-12 ml-2 rounded-l-full sm:text-base text-xs">
                 👍🏻 {bigVideo?.statistics.likeCount}
               </button>
-              <button className=" bg-gray-200    border-gray-700 py-2 px-4 rounded-r-full">
+              <button className=" bg-gray-200    border-gray-700 py-2 md:px-4  px-1 rounded-r-full sm:text-base text-xs">
                 👎🏻
               </button>
-              <button className=" bg-gray-200  border-gray-700 py-2 px-8 ml-12 rounded-full">
+              <button className=" bg-gray-200  border-gray-700 py-2 sm:px-8 px-1 lg:ml-12 ml-2 rounded-full sm:text-base text-xs">
                 Share
               </button>
             </li>
-            <li>{bigVideo?.statistics?.viewCount} veiws</li>
-            {!live ?<li className="  font-bold text-lg">Coments:</li>:null}
+            <li className="sm:text-base text-xs">{bigVideo?.statistics?.viewCount} veiws</li>
+            {!live ?<li className="  font-bold text-lg hidden xl:block">Coments:</li>:null}
           </ul>
           
           {!live?coments?.map((coment) => (
             <ComentPage key={coment.id} info={coment} />
           )):null}
         </div>
+        <div className="">
         {live ? (
-          <div className="w-[450px]">
+          <div className="xl:w-[600px] w-[100%]">
             <LiveChat />
           </div>
         ) : (
@@ -126,6 +126,7 @@ const WatchPage = () => {
             ))}
           </div>
         )}
+        </div>
       </div>
 
     

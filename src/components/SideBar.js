@@ -81,7 +81,7 @@ const SideBar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
   return (
-    <div className=" p-5 shadow-lg w-25">
+    <div className=" p-5 shadow-lg w-25 lg:block hidden">
       {sideBarTabs.map((t) => (
         <>
           <h1 key={t.name} className= {` ${isMenuOpen?" font-bold flex":null} pt-7 `}>

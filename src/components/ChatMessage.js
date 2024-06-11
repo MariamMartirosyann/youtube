@@ -13,7 +13,7 @@ const ChatMessage = ({ name, message }) => {
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&usqp=CAU"
       />
       <span className=" font-bold px-2">{name}</span>
-      <span>{message}</span>
+      <span className="sm:text-base text-xs">{message}</span>
     </div>
   );
 };

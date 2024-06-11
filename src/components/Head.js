@@ -85,8 +85,8 @@ const Head = () => {
   }, [chosenQuery]);
 
   return (
-    <div className=" flex flex-row w-full shadow-lg  ">
-      <div className="flex flex-row  w-2/6">
+    <div className=" flex flex-row w-full shadow-lg  mb-5">
+      <div className="flex flex-row  w-[30%]">
         {" "}
         <img
           onClick={() => toggleMenuHandler()}
@@ -103,7 +103,7 @@ const Head = () => {
         </Link>
       </div>
 
-      <div className="flex flex-col  sm:w-4/6  w-3/6 py-2 sm:ml-4  ml-6 ">
+      <div className="flex flex-col  w-[60%] py-2 sm:ml-4  ml-6 ">
         <div>
           <form onSubmit={handleSubmit}>
             <input
@@ -125,12 +125,12 @@ const Head = () => {
           </form>
         </div>
         {!!searchSuggestions ? (
-          <div className=" absolute mt-11  py-2 px-5 w-1/3 shadow-lg rounded-lg border border-gray-100">
+          <div className=" absolute mt-11 py-2 px-5 w-1/3">
             <ul>
               {searchSuggestions?.map((s) => (
                 <Link to={`results/?search_query=${s}`}>
                   <li
-                    className=" sm:p-2 sm:text-base py-1  text-xs shadow-sm hover:bg-gray-100"
+                    className=" sm:p-2 sm:text-base py-1 bg-white text-xs shadow-sm hover:bg-gray-100 "
                     onClick={() => {
                       setChosenQuery(s);
                       setSearchQuery(s);
@@ -144,7 +144,7 @@ const Head = () => {
           </div>
         ) : null}
       </div>
-      <div className="w-1/6">
+      <div className="w-[10%]">
         <img
           className="h-8 mt-3"
           alt="user"
