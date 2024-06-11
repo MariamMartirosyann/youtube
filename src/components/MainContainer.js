@@ -8,6 +8,7 @@ import SearchVideoList from "./SearchVideoList";
 const MainContainer = () => {
   const dispatch = useDispatch();
   const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
+  const error = useSelector((store) => store.app.isError);
 
   useEffect(() => {
     dispatch(closeSideListVidos());
@@ -16,7 +17,7 @@ const MainContainer = () => {
   return (
     <div className="flex flex-col ml-5">
       <ButtonList />
-
+      {error ? <h1 className=" mx-auto mt-5 font-bold  text-red-700">{error}</h1> : null}
       {!isSearchListOpen ? <SearchVideoList /> : <VideoContainer />}
     </div>
   );

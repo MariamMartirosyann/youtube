@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu, openSearchList, closeSearchList } from "../utils/appSlice";
+import { toggleMenu, openSearchList, closeSearchList, setError } from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
 import {
   chosenQueryResults,
@@ -14,6 +14,8 @@ const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
+  const[err, setErr]=useState(null)
+ 
 
   //console.log("chosenQuery", chosenQuery);
 
@@ -53,13 +55,24 @@ const Head = () => {
     //console.log(event.target[0].value,"event")
   };
   const getChosenQuery = async () => {
-    const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
-    const json = await data.json();
-    //console.log("search query list", json.items);
-    dispatch(chosenQueryResults(json.items));
-    dispatch(openSearchList());
-    setSearchSuggestions([]);
-    //dispatch(resetChosenQueryResults());
+    try {
+      const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
+      if (!data.ok) {
+        throw new Error("Network response was not ok. Error status: " + data.status+"Youtube data API key is expired");
+      }
+      const json = await data.json();
+      //console.log("search query list", json.items);
+      dispatch(chosenQueryResults(json.items));
+      dispatch(openSearchList());
+      setSearchSuggestions([]);
+      //dispatch(resetChosenQueryResults());
+    } catch (error) {
+      console.log(error,"error")
+      dispatch(setError(error.message))
+      setErr(error)
+     
+     
+    }
   };
 
   useEffect(() => {
