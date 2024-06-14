@@ -41,7 +41,7 @@ const Head = () => {
       const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status
+          "Network response was not ok. Error status: " + data.status+"getSearchSuggestions"
         );
       }
 
@@ -73,7 +73,7 @@ const Head = () => {
       const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status
+          "Network response was not ok. Error status: " + data.status+"getChosenQuery"
         );
       }
       const json = await data.json();

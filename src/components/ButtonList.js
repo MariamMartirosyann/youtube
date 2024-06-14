@@ -20,7 +20,7 @@ const ButtonList = () => {
     try {
     const data = await fetch(CATEGORIES);
     if (!data.ok) {
-      throw new Error("Network response was not ok. Error status: " + data.status);
+      throw new Error("Network response was not ok. Error status: " + data.status+"getButtons");
     }
     const json = await data.json();
     setButtons(json?.items?.slice(0, 5));}
