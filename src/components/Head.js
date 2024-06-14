@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu, openSearchList, closeSearchList, setError } from "../utils/appSlice";
+import {
+  toggleMenu,
+  openSearchList,
+  closeSearchList,
+  setError,
+} from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
 import {
   chosenQueryResults,
@@ -14,8 +19,7 @@ const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
-  const[err, setErr]=useState(null)
- 
+  const [err, setErr] = useState(null);
 
   //console.log("chosenQuery", chosenQuery);
 
@@ -33,16 +37,26 @@ const Head = () => {
   };
 
   const getSearchSuggestions = async () => {
-    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery, {
-      referrerPolicy: "unsafe-url",
-    });
-    const json = await data.json();
-    setSearchSuggestions(json[1]);
-    dispatch(
-      cacheResults({
-        [searchQuery]: json[1],
-      })
-    );
+    try {
+      const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+      if (!data.ok) {
+        throw new Error(
+          "Network response was not ok. Error status: " + data.status
+        );
+      }
+
+      const json = await data.json();
+      setSearchSuggestions(json[1]);
+      dispatch(
+        cacheResults({
+          [searchQuery]: json[1],
+        })
+      );
+    } catch (error) {
+      console.log(error, "error");
+      dispatch(setError(error.message));
+      setErr(error);
+    }
   };
 
   const searchCache = useSelector((store) => store.search);
@@ -58,7 +72,9 @@ const Head = () => {
     try {
       const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
       if (!data.ok) {
-        throw new Error("Network response was not ok. Error status: " + data.status+"Youtube data API key is expired");
+        throw new Error(
+          "Network response was not ok. Error status: " + data.status
+        );
       }
       const json = await data.json();
       //console.log("search query list", json.items);
@@ -67,11 +83,9 @@ const Head = () => {
       setSearchSuggestions([]);
       //dispatch(resetChosenQueryResults());
     } catch (error) {
-      console.log(error,"error")
-      dispatch(setError(error.message))
-      setErr(error)
-     
-     
+      console.log(error, "error");
+      dispatch(setError(error.message));
+      setErr(error);
     }
   };
 

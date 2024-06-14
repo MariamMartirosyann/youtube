@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { CATEGORIES } from "../utils/constants";
+import { setError } from "../utils/appSlice";
 import { useDispatch } from "react-redux";
 import { updateCategory, cleanCategory } from "../utils/categorySlice";
 
@@ -12,12 +13,23 @@ const ButtonList = () => {
 
   const dispatch = useDispatch();
 
+  const[err, setErr]=useState(null)
   //console.log(buttons, "buttons");
 
   const getButtons = async () => {
+    try {
     const data = await fetch(CATEGORIES);
+    if (!data.ok) {
+      throw new Error("Network response was not ok. Error status: " + data.status);
+    }
     const json = await data.json();
-    setButtons(json?.items?.slice(0, 5));
+    setButtons(json?.items?.slice(0, 5));}
+    catch (error) {
+      console.log(error,"error")
+      dispatch(setError(error.message))
+      setErr(error)
+     
+    }
   };
 
   const findCategoryId = () => {
