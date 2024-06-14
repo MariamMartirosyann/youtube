@@ -8,6 +8,7 @@ import { GOOGLE_API_KEY } from "../utils/constants";
 import ComentPage from "./ComentPage";
 import SearchVideo from "./SearchVideoList";
 import LiveChat from "./LiveChat";
+import { setError } from "../utils/appSlice";
 import CardShimmer from "./CardShimmer";
 
 const WatchPage = () => {
@@ -15,6 +16,7 @@ const WatchPage = () => {
   const [videos, setVideos] = useState([]);
   const [bigVideo, setBigVideo] = useState();
   const [coments, setComents] = useState([]);
+  const[err, setErr]=useState(null)
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
 
@@ -22,7 +24,6 @@ const WatchPage = () => {
   const seachVideoList = useSelector((store) => store.app.chosenQuery);
   const islive = useSelector((store) => store.category.categoryName);
   const live = islive === "Live" ? true : false;
-  
 
   const COMENTS_API =
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=" +
@@ -35,18 +36,42 @@ const WatchPage = () => {
     GOOGLE_API_KEY;
 
   const getComents = async () => {
-    const data = await fetch(COMENTS_API);
-    const json = await data.json();
-    setComents(json.items);
+    try {
+      const data = await fetch(COMENTS_API);
+      if (!data.ok) {
+        throw new Error(
+          "Network response was not ok. Error status: " + data.status
+        );
+      }
+      const json = await data.json();
+      setComents(json.items);
+    } catch (error) {
+      console.log(error, "error");
+      dispatch(setError(error.message));
+      setErr(error);
+    }
+
+   
   };
 
   const getVideos = async () => {
-    const data = await fetch(YOUTUBE_VIDEOS_API);
+    try {
+      const data = await fetch(YOUTUBE_VIDEOS_API);
+      if (!data.ok) {
+        throw new Error(
+          "Network response was not ok. Error status: " + data.status
+        );
+      }
     const json = await data?.json();
     const filteredVideos = json?.items?.filter((video) => video.id !== videoId);
     const mianVideo = json?.items?.find((video) => video.id === videoId);
     setVideos(filteredVideos);
     setBigVideo(mianVideo);
+  } catch (error) {
+    console.log(error, "error");
+    dispatch(setError(error.message));
+    setErr(error);
+  }
   };
 
   const getChannels = async () => {
@@ -77,10 +102,8 @@ const WatchPage = () => {
         <div className="xl:w-[80%] w-[100%]">
           <iframe
             className="mb-5 w-[100%] lg:h-[500px] h-[300px]"
-          
             src={"https://www.youtube.com/embed/" + videoId}
             title="YouTube video player"
-            
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
@@ -101,35 +124,39 @@ const WatchPage = () => {
                 👎🏻
               </button>
               <button className=" bg-gray-200  border-gray-700 py-2 sm:px-8 px-1 lg:ml-12 ml-2 rounded-full sm:text-base text-xs">
-                Share
+                 Share
               </button>
             </li>
-            <li className="sm:text-base text-xs">{bigVideo?.statistics?.viewCount} veiws</li>
-            {!live ?<li className="  font-bold text-lg hidden xl:block">Coments:</li>:null}
+            <li className="sm:text-base text-xs">
+              {bigVideo?.statistics?.viewCount} veiws
+            </li>
+            {!live ? (
+              <li className="  font-bold text-lg hidden xl:block">Coments:</li>
+            ) : null}
           </ul>
-          
-          {!live?coments?.map((coment) => (
-            <ComentPage key={coment.id} info={coment} />
-          )):null}
+
+          {!live
+            ? coments?.map((coment) => (
+                <ComentPage key={coment.id} info={coment} />
+              ))
+            : null}
         </div>
         <div className="">
-        {live ? (
-          <div className="xl:w-[600px] w-[100%]">
-            <LiveChat />
-          </div>
-        ) : (
-          <div className=" flex flex-col ">
-            {videos.map((video) => (
-              <Link to={"/watch?v=" + video.id} key={video.id}>
-                <VideoCard info={video} />
-              </Link>
-            ))}
-          </div>
-        )}
+          {live ? (
+            <div className="xl:w-[600px] w-[100%]">
+              <LiveChat />
+            </div>
+          ) : (
+            <div className=" flex flex-col ">
+              {videos.map((video) => (
+                <Link to={"/watch?v=" + video.id} key={video.id}>
+                  <VideoCard info={video} />
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-    
     </>
   );
 };

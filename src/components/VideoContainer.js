@@ -7,13 +7,18 @@ import {
 import { switchKeyValue } from "../utils/helper";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { setError } from "../utils/appSlice";
 import CardShimmer from "./CardShimmer";
 import ShimmerList from "./ShimmerList";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
   const category = useSelector((store) => store.category.categoryName);
+  const[err, setErr]=useState(null)
+ 
+
+  const dispatch = useDispatch();
   //console.log(category, "category click");
 
   const a = switchKeyValue(buttonsId);
@@ -30,9 +35,21 @@ const VideoContainer = () => {
   const GET_DATA_URL = CategoryId ? GET_BY_CATIGORY_ID : YOUTUBE_VIDEOS_API;
 
   const getVideos = async () => {
-    const data = await fetch(GET_DATA_URL);
-    const json = await data.json();
-    setVideos(json?.items);
+    try {
+      const data = await fetch(GET_DATA_URL);
+      if (!data.ok) {
+        throw new Error(
+          "Network response was not ok. Error status: " + data.status
+        );
+      }
+
+      const json = await data.json();
+      setVideos(json?.items);
+    } catch (error) {
+      console.log(error, "error");
+      dispatch(setError(error.message));
+      setErr(error);
+    }
   };
 
   useEffect(() => {
