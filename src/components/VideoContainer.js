@@ -39,7 +39,7 @@ const VideoContainer = () => {
       const data = await fetch(GET_DATA_URL);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status
+          "Network response was not ok. Error status: " + data.status +"getVodeos"
         );
       }
 

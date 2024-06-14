@@ -40,7 +40,7 @@ const WatchPage = () => {
       const data = await fetch(COMENTS_API);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status
+          "Network response was not ok. Error status: " + data.status +"getComents"
         );
       }
       const json = await data.json();
@@ -59,7 +59,7 @@ const WatchPage = () => {
       const data = await fetch(YOUTUBE_VIDEOS_API);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status
+          "Network response was not ok. Error status: " + data.status+"getVideos"
         );
       }
     const json = await data?.json();
