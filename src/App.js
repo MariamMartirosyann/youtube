@@ -4,8 +4,10 @@ import { Provider, useSelector } from "react-redux";
 import Body from "./components/Body";
 import store from "./utils/store";
 import "./App.css";
-import ShimmerList from "./components/ShimmerList";
+import ShimmerList from "./components/Shimmer/ShimmerList";
 import Error from "./components/Error";
+import WatchPageShimmer from "./components/Shimmer/WatchPageShimmer";
+import ShimmerSearchList from "./components/Shimmer/ShimmerSearchList";
 
 const MainContainer = lazy(() => import("./components/MainContainer"));
 const WatchPage = lazy(() => import("./components/WatchPage"));
@@ -20,23 +22,23 @@ const appRouter = createBrowserRouter([
         path: "/",
         element: (
           <Suspense fallback={<ShimmerList/>}>
-            <MainContainer />
+          <MainContainer/>
           </Suspense>
         ),
       },
       {
         path: "watch",
         element: (
-          <Suspense fallback={<h1>Loading....</h1>}>
-            <WatchPage />
+          <Suspense fallback={ <WatchPageShimmer/>}>
+            <WatchPage/>
           </Suspense>
         ),
       },
       {
         path: "results",
         element: (
-          <Suspense fallback={<h1>Loading....</h1>}>
-            <SearchVideoList />
+          <Suspense fallback={<ShimmerSearchList/>}>
+            <SearchVideoList/>
           </Suspense>
         ),
       },
