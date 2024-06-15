@@ -6,17 +6,16 @@ import { YOUTUBE_VIDEOS_API } from "../utils/constants";
 import VideoCard from "./VideoCard";
 import { GOOGLE_API_KEY } from "../utils/constants";
 import ComentPage from "./ComentPage";
-import SearchVideo from "./SearchVideoList";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
-import CardShimmer from "./CardShimmer";
+
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
   const [videos, setVideos] = useState([]);
   const [bigVideo, setBigVideo] = useState();
   const [coments, setComents] = useState([]);
-  const[err, setErr]=useState(null)
+  const [err, setErr] = useState(null);
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
 
@@ -40,7 +39,9 @@ const WatchPage = () => {
       const data = await fetch(COMENTS_API);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status +"getComents"
+          "Network response was not ok. Error status: " +
+            data.status +
+            "getComents"
         );
       }
       const json = await data.json();
@@ -50,8 +51,6 @@ const WatchPage = () => {
       dispatch(setError(error.message));
       setErr(error);
     }
-
-   
   };
 
   const getVideos = async () => {
@@ -59,19 +58,23 @@ const WatchPage = () => {
       const data = await fetch(YOUTUBE_VIDEOS_API);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status+"getVideos"
+          "Network response was not ok. Error status: " +
+            data.status +
+            "getVideos"
         );
       }
-    const json = await data?.json();
-    const filteredVideos = json?.items?.filter((video) => video.id !== videoId);
-    const mianVideo = json?.items?.find((video) => video.id === videoId);
-    setVideos(filteredVideos);
-    setBigVideo(mianVideo);
-  } catch (error) {
-    console.log(error, "error");
-    dispatch(setError(error.message));
-    setErr(error);
-  }
+      const json = await data?.json();
+      const filteredVideos = json?.items?.filter(
+        (video) => video.id !== videoId
+      );
+      const mianVideo = json?.items?.find((video) => video.id === videoId);
+      setVideos(filteredVideos);
+      setBigVideo(mianVideo);
+    } catch (error) {
+      console.log(error, "error");
+      dispatch(setError(error.message));
+      setErr(error);
+    }
   };
 
   const getChannels = async () => {
@@ -124,7 +127,7 @@ const WatchPage = () => {
                 👎🏻
               </button>
               <button className=" bg-gray-200  border-gray-700 py-2 sm:px-8 px-1 lg:ml-12 ml-2 rounded-full sm:text-base text-xs">
-                 Share
+                Share
               </button>
             </li>
             <li className="sm:text-base text-xs">

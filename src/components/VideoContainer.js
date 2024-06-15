@@ -9,8 +9,8 @@ import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { setError } from "../utils/appSlice";
-import CardShimmer from "./CardShimmer";
-import ShimmerList from "./ShimmerList";
+import CardShimmer from "./Shimmer/CardShimmer";
+import ShimmerList from "./Shimmer/ShimmerList";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);

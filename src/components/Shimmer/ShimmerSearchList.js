@@ -1,9 +1,9 @@
-import React from "react";
-import CardShimmer from "./CardShimmer";
+import React from 'react'
+import CardShimmer from './CardShimmer'
 
-const ShimmerList = () => {
+const ShimmerSearchList = () => {
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-col">
       <CardShimmer /> 
       <CardShimmer />
       <CardShimmer />
@@ -18,7 +18,7 @@ const ShimmerList = () => {
       <CardShimmer />
       <CardShimmer />
     </div>
-  );
-};
+  )
+}
 
-export default ShimmerList;
+export default ShimmerSearchList
