@@ -68,7 +68,6 @@ const Head = () => {
     dispatch(resetChosenQueryResults());
     setSearchQuery("")
     setSearchSuggestions([])
-    //setChosenQuery("")
     //console.log(event.target[0].value,"event")
   };
   const getChosenQuery = async () => {

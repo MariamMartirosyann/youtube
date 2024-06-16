@@ -1,7 +1,7 @@
 import React from "react";
 
 const SearchVideoCard = ({ data }) => {
-  console.groupCollapsed(data,"data from lsit")
+ 
   return (
     <div className="p-2 m-2 w-full  flex flex-row">
       <img
