@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 const sideBarTabs = [
   {
     name: "Home",
+    id:1,
     icon: (
       <svg
         className="h-7 w-7 text-gray-900"
@@ -22,6 +23,7 @@ const sideBarTabs = [
   },
   {
     name: "Shorts",
+    id:2,
     icon: (
       <svg
         className="h-7 w-7 text-gray-900"
@@ -40,6 +42,7 @@ const sideBarTabs = [
   },
   {
     name: "Subscrp.",
+    id:3,
     icon: (
       <svg
         className="h-7 w-7 text-gray-900"
@@ -58,6 +61,7 @@ const sideBarTabs = [
   },
   {
     name: "You",
+    id:4,
     icon: (
       <svg
         className="h-7 w-7 text-gray-900"
@@ -83,16 +87,16 @@ const SideBar = () => {
   return (
     <div className=" p-5 shadow-lg w-25 lg:block hidden">
       {sideBarTabs.map((t) => (
-        <>
-          <h1 key={t.name} className= {` ${isMenuOpen?" font-bold flex":null} pt-7 `}>
+        <div key={t.id}>
+          <h1  className= {` ${isMenuOpen?" font-bold flex":null} pt-7 `}>
             <div className="mx-2">{t.icon}</div>
             <span>{t.name}</span>
             
           </h1>
-          {isMenuOpen?t.children?.map((c) => (
-            <div  className="ml-10 mt-1"key={c}>{c}</div>
+          {isMenuOpen?t.children?.map((c,index) => (
+            <div  className="ml-10 mt-1"key={index}>{c}</div>
           )):null}
-        </>
+        </div>
       ))}
     </div>
   );
