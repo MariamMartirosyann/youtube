@@ -12,7 +12,7 @@ const SearchVideoList = () => {
   return (
     <div>
       {seachVideoList[seachVideoList.length - 1]?.map((v) => (
-       <Link to={"/watch?v=" + v?.id?.videoId} key={v?.idv?.videoId}>
+       <Link to={"/watch?v=" + v?.id?.videoId} key={v?.id?.videoId}>
           <SearchVideoCard data={v} />
         </Link>
       ))}

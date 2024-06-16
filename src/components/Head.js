@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleMenu,
@@ -65,7 +65,10 @@ const Head = () => {
     event.preventDefault();
     setChosenQuery(event.target[0].value);
     navigate(`results/?search_query=${event.target[0].value}`);
-    //dispatch(resetChosenQueryResults());
+    dispatch(resetChosenQueryResults());
+    setSearchQuery("")
+    setSearchSuggestions([])
+    //setChosenQuery("")
     //console.log(event.target[0].value,"event")
   };
   const getChosenQuery = async () => {
@@ -154,8 +157,8 @@ const Head = () => {
         {!!searchSuggestions ? (
           <div className=" absolute mt-11 py-2 px-5 w-1/3">
             <ul>
-              {searchSuggestions?.map((s) => (
-                <Link to={`results/?search_query=${s}`}>
+              {searchSuggestions?.map((s,index) => (
+                <Link key={index} to={`results/?search_query=${s}`}>
                   <li
                     className=" sm:p-2 sm:text-base py-1 bg-white text-xs shadow-sm hover:bg-gray-100 "
                     onClick={() => {
