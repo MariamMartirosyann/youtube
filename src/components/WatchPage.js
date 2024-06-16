@@ -9,7 +9,6 @@ import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
 
-
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
   const [videos, setVideos] = useState([]);
@@ -18,9 +17,9 @@ const WatchPage = () => {
   const [err, setErr] = useState(null);
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
-
-  const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
-  const seachVideoList = useSelector((store) => store.app.chosenQuery);
+  console.log(bigVideo, "bigvideo");
+  //const isSearchListOpen = useSelector((store) => store.app.isSearchListOpen);
+  //const seachVideoList = useSelector((store) => store.app.chosenQuery);
   const islive = useSelector((store) => store.category.categoryName);
   const live = islive === "Live" ? true : false;
 
@@ -113,10 +112,10 @@ const WatchPage = () => {
           ></iframe>
           <ul className=" text-lg w-600">
             <li className=" font-bold sm:text-lg my-4  text-xs">
-              {bigVideo?.snippet.title}
+              {bigVideo && bigVideo?.snippet.title}
             </li>
             <li className="sm:text-base text-xs">
-              {bigVideo?.snippet.channelTitle}{" "}
+              {bigVideo && bigVideo?.snippet.channelTitle}{" "}
               <button className=" bg-black  text-white py-2 sm:px-4 px-1 lg:ml-12 ml-2 rounded-full  sm:text-base text-xs">
                 Subscribe
               </button>
@@ -131,7 +130,7 @@ const WatchPage = () => {
               </button>
             </li>
             <li className="sm:text-base text-xs">
-              {bigVideo?.statistics?.viewCount} veiws
+              {bigVideo && bigVideo?.statistics?.viewCount + "veiws"}
             </li>
             {!live ? (
               <li className="  font-bold text-lg hidden xl:block">Coments:</li>
