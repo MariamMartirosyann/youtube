@@ -5,40 +5,44 @@ import { setError } from "../utils/appSlice";
 import { useDispatch } from "react-redux";
 import { updateCategory, cleanCategory } from "../utils/categorySlice";
 
-const ButtonList = () => {
 
+const ButtonList = () => {
   const [buttons, setButtons] = useState([]);
   const [category, setCategory] = useState("");
   const [activeButton, setActiveButton] = useState("All");
+  const [err, setErr] = useState(null);
 
   const dispatch = useDispatch();
 
-  const[err, setErr]=useState(null)
   //console.log(buttons, "buttons");
+
 
   const getButtons = async () => {
     try {
-    const data = await fetch(CATEGORIES);
-    if (!data.ok) {
-      throw new Error("Network response was not ok. Error status: " + data.status+"getButtons");
-    }
-    const json = await data.json();
-    setButtons(json?.items?.slice(0, 5));}
-    catch (error) {
-      console.log(error,"error")
-      dispatch(setError(error.message))
-      setErr(error)
-     
+      const data = await fetch(CATEGORIES);
+      if (!data.ok) {
+        throw new Error(
+          "Network response was not ok. Error status: " +
+            data.status +
+            "getButtons"
+        );
+      }
+      const json = await data.json();
+      setButtons(json?.items?.slice(0, 5));
+    } catch (error) {
+      console.log(error, "error");
+      dispatch(setError(error.message));
+      setErr(error);
     }
   };
 
   const findCategoryId = () => {
     dispatch(updateCategory(category));
   };
-
   useEffect(() => {
     getButtons();
   }, []);
+
 
   useEffect(() => {
     findCategoryId();

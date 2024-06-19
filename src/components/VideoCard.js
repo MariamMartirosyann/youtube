@@ -14,10 +14,10 @@ const VideoCard = ({ info, live=false }) => {
         className="w-1/2  rounded-lg mr-3"
        
         alt="thumbnail"
-        src={thumbnails.medium.url}
+        src={thumbnails?.medium?.url}
       />
       <ul className="w-1/2">
-        <li className=" text-sm">{title.slice(0,50)}</li>
+        <li className=" text-sm">{title?.slice(0,50)}</li>
         <li>{channelTitle}</li>
         <li>{statistics?.viewCount} veiws</li>
       </ul>
@@ -27,7 +27,7 @@ const VideoCard = ({ info, live=false }) => {
       <img
         className=" rounded-lg"
         alt="thumbnail"
-        src={thumbnails?.medium.url}
+        src={thumbnails?.medium?.url}
       />
       <ul>
         <li className=" font-bold py-2 md:w-170  sm:w-150">{title.slice(0,30)}</li>

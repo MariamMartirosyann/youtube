@@ -12,15 +12,15 @@ import {
   resetChosenQueryResults,
 } from "../utils/chosenQuerySlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
-import { GOOGLE_API_KEY } from "../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
+import { API_KEY1_SUGGESTIONS } from "../utils/constants";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
   const [err, setErr] = useState(null);
-
+  //const GOOGLE_API_KEY = useAPI();
   //console.log("chosenQuery", chosenQuery);
 
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const Head = () => {
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
     chosenQuery +
     "%20&videoType=any&key=" +
-    GOOGLE_API_KEY;
+    API_KEY1_SUGGESTIONS;
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -41,7 +41,9 @@ const Head = () => {
       const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status+"getSearchSuggestions"
+          "Network response was not ok. Error status: " +
+            data.status +
+            "getSearchSuggestions"
         );
       }
 
@@ -66,8 +68,8 @@ const Head = () => {
     setChosenQuery(event.target[0].value);
     navigate(`results/?search_query=${event.target[0].value}`);
     dispatch(resetChosenQueryResults());
-    setSearchQuery("")
-    setSearchSuggestions([])
+    setSearchQuery("");
+    setSearchSuggestions([]);
     //console.log(event.target[0].value,"event")
   };
   const getChosenQuery = async () => {
@@ -75,7 +77,9 @@ const Head = () => {
       const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
       if (!data.ok) {
         throw new Error(
-          "Network response was not ok. Error status: " + data.status+"getChosenQuery"
+          "Network response was not ok. Error status: " +
+            data.status +
+            "getChosenQuery"
         );
       }
       const json = await data.json();
@@ -96,18 +100,21 @@ const Head = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchCache[searchQuery]) {
-        setSearchSuggestions(searchCache[searchQuery]);
-      } else {
-        getSearchSuggestions();
-      }
-    }, 200);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchQuery]);
+    if (!err) {
+      const timer = setTimeout(() => {
+        if (searchCache[searchQuery]) {
+          setSearchSuggestions(searchCache[searchQuery]);
+        } else {
+          getSearchSuggestions();
+        }
+      }, 200);
+      return () => {
+        clearTimeout(timer);
+      };
+    } else {
+      getSearchSuggestions();
+    }
+  }, [searchQuery, err]);
 
   useEffect(() => {
     getChosenQuery();
@@ -156,7 +163,7 @@ const Head = () => {
         {!!searchSuggestions ? (
           <div className=" absolute mt-11 py-2 px-5 w-1/3">
             <ul>
-              {searchSuggestions?.map((s,index) => (
+              {searchSuggestions?.map((s, index) => (
                 <Link key={index} to={`results/?search_query=${s}`}>
                   <li
                     className=" sm:p-2 sm:text-base py-1 bg-white text-xs shadow-sm hover:bg-gray-100 "
