@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeMenu, sideListVidos } from "../utils/appSlice";
 import { useSearchParams, Link } from "react-router-dom";
-import { YOUTUBE_VIDEOS_API } from "../utils/constants";
+import { YOUTUBE_VIDEOS_API,API_KEY_COMENTS } from "../utils/constants";
 import VideoCard from "./VideoCard";
-import { GOOGLE_API_KEY } from "../utils/constants";
 import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
+import useVideoAPI from "../utils/useVideoAPI ";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -18,11 +18,7 @@ const WatchPage = () => {
   const [err, setErr] = useState(null);
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
-
-  // console.log(video?.snippet?.title, "video")
-  // console.log(video?.snippet?.channelTitle, "video")
-  // console.log(video?.statistics?.viewCount, "video")
-  // console.log(video?.statistics?.likeCount, "video")
+  const GOOGLE_VIDEO_API_KEY=useVideoAPI()
 
   const islive = useSelector((store) => store.category.categoryName);
   const live = islive === "Live" ? true : false;
@@ -31,11 +27,9 @@ const WatchPage = () => {
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=" +
     videoId +
     "&key=" +
-    GOOGLE_API_KEY;
+    API_KEY_COMENTS;
 
-  const CHANNELS_API =
-    "https://youtube.googleapis.com/youtube/v3/channelSections?part=snippet&channelId=UCRpjHHu8ivVWs73uxHlWwFA&key=" +
-    GOOGLE_API_KEY;
+ 
 
   const getComents = async () => {
     try {
@@ -59,7 +53,7 @@ const WatchPage = () => {
   const getVideo = async () => {
     const data1 = await fetch(
       "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id="+videoId +"&key=" +
-        GOOGLE_API_KEY
+      GOOGLE_VIDEO_API_KEY
     );
     const json1 = await data1?.json();
     setVideo(json1?.items[0]);
@@ -68,7 +62,7 @@ const WatchPage = () => {
 
   const getVideos = async () => {
     try {
-      const data = await fetch(YOUTUBE_VIDEOS_API);
+      const data = await fetch(YOUTUBE_VIDEOS_API+GOOGLE_VIDEO_API_KEY);
       if (!data.ok) {
         throw new Error(
           "Network response was not ok. Error status: " +
@@ -90,16 +84,13 @@ const WatchPage = () => {
     }
   };
 
-  const getChannels = async () => {
-    const data = await fetch(CHANNELS_API);
-    const json = await data.json();
-  };
+ 
 
   useEffect(() => {
     dispatch(closeMenu());
     dispatch(sideListVidos());
     getComents();
-    getChannels();
+  
   }, []);
 
   useEffect(() => {

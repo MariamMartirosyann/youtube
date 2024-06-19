@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   YOUTUBE_VIDEOS_API,
-  GOOGLE_API_KEY,
+  API_KEY_CATEGORIES_ID,
   buttonsId,
 } from "./../utils/constants";
 import { switchKeyValue } from "../utils/helper";
@@ -9,8 +9,8 @@ import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { setError } from "../utils/appSlice";
-import CardShimmer from "./Shimmer/CardShimmer";
-import ShimmerList from "./Shimmer/ShimmerList";
+import useAPI from "../utils/useAPI";
+
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
@@ -20,7 +20,7 @@ const VideoContainer = () => {
 
   const dispatch = useDispatch();
   //console.log(category, "category click");
-
+  const GOOGLE_API_KEY = useAPI();
   const a = switchKeyValue(buttonsId);
 
   //console.log(a[category]);
@@ -30,9 +30,9 @@ const VideoContainer = () => {
     "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=AM&videoCategoryId=" +
     CategoryId +
     "&key=" +
-    GOOGLE_API_KEY;
+    API_KEY_CATEGORIES_ID;
 
-  const GET_DATA_URL = CategoryId ? GET_BY_CATIGORY_ID : YOUTUBE_VIDEOS_API;
+  const GET_DATA_URL = CategoryId ? GET_BY_CATIGORY_ID : YOUTUBE_VIDEOS_API+ GOOGLE_API_KEY;
 
   const getVideos = async () => {
     try {
@@ -45,6 +45,7 @@ const VideoContainer = () => {
 
       const json = await data.json();
       setVideos(json?.items);
+     
     } catch (error) {
       console.log(error, "error");
       dispatch(setError(error.message));
