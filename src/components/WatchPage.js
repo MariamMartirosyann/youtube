@@ -8,6 +8,7 @@ import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
 import useVideoAPI from "../utils/useVideoAPI ";
+import { VideoMockData } from "../utils/mockData/MockData";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -81,6 +82,13 @@ const WatchPage = () => {
       console.log(error, "error");
       dispatch(setError(error.message));
       setErr(error);
+
+      const filteredVideos = VideoMockData.filter(
+        (video) => video.id !== videoId
+      );
+      const mianVideo = VideoMockData.find((video) => video.id === videoId);
+      setVideos(filteredVideos);
+      setBigVideo(mianVideo);
     }
   };
 

@@ -1,4 +1,3 @@
-import useAPI from "./useAPI";
 
 export const GOOGLE_API_KEY1 ="AIzaSyDmPMnpn3pccWz7xlF5UaOk6itv8JKfLB4";
 export const GOOGLE_API_KEY2 = "AIzaSyB_hZpvetMN46neTQMwUh7k71A9wvmYnC0";
@@ -15,7 +14,7 @@ export const API_KEY1_SUGGESTIONS = "AIzaSyAjJUqM7nLoWU1i_oDQP1k3PYylmPJskAQ";
 export const OFFSET_LIFE_CHAT = 10;
 
 export const YOUTUBE_VIDEOS_API =
-  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=5&regionCode=AM&key=" //+
+  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=16&regionCode=AM&key=" //+
   //GOOGLE_API_KEY;
 
 export const CATEGORIES =
