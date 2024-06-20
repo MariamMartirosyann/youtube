@@ -10,14 +10,14 @@ import { Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { setError } from "../utils/appSlice";
 import useAPI from "../utils/useAPI";
-
+import { VideoMockData } from "../utils/mockData/MockData";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
   const category = useSelector((store) => store.category.categoryName);
   const[err, setErr]=useState(null)
  
-
+console.log(videos,"videos")
   const dispatch = useDispatch();
   //console.log(category, "category click");
   const GOOGLE_API_KEY = useAPI();
@@ -50,9 +50,12 @@ const VideoContainer = () => {
       console.log(error, "error");
       dispatch(setError(error.message));
       setErr(error);
+      setVideos(VideoMockData);
     }
   };
-
+if(!getVideos){
+  setVideos(VideoMockData)
+}
   useEffect(() => {
     getVideos();
   }, [CategoryId]);
