@@ -13,16 +13,14 @@ import {
 } from "../utils/chosenQuerySlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
-import { API_KEY1_SUGGESTIONS } from "../utils/constants";
+
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [chosenQuery, setChosenQuery] = useState("");
   const [err, setErr] = useState(null);
-  //const GOOGLE_API_KEY = useAPI();
-  //console.log("chosenQuery", chosenQuery);
-
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,7 +28,7 @@ const Head = () => {
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
     chosenQuery +
     "%20&videoType=any&key=" +
-    API_KEY1_SUGGESTIONS;
+    process.env.REACT_APP_API_KEY1_SUGGESTIONS;
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());

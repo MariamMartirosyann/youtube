@@ -1,24 +1,12 @@
 
-export const GOOGLE_API_KEY1 ="AIzaSyDmPMnpn3pccWz7xlF5UaOk6itv8JKfLB4";
-export const GOOGLE_API_KEY2 = "AIzaSyB_hZpvetMN46neTQMwUh7k71A9wvmYnC0";
-export const GOOGLE_API_KEY3 = "AIzaSyD3ukNmSSDAINJYtvD90MP_sXyc0F0_2io";
-export const GOOGLE_API_KEY4 = "AIzaSyCQJQfcp8WMgDGCqV2ZfKuVi1-d-ZwsxDI";
-export const GOOGLE_API_KEY5 = "AIzaSyAZQ4HWk5ZnNFhq_ipM6P-dheoujZ40tZk";
-export const GOOGLE_API_KEY6 = "AIzaSyDvoI2jjKY8cUO6TWlqsxwbspc2xIKzghM";
-export const API_KEY_COMENTS = "AIzaSyBifGhBLBWTJdZgxeySMJgF_Ubxvgc9c4g";
-export const API_KEY_CATEGORIES_ID = "AIzaSyCUZTFI5oitR97SyGG34ZYxhqjFSWE_5Sg";
-export const API_KEY_CATEGORIES = "AIzaSyDO7H-DnWU4H0dCHQR4YRrdh5BxHP_PVuM";
-export const API_KEY1_SUGGESTIONS = "AIzaSyAjJUqM7nLoWU1i_oDQP1k3PYylmPJskAQ";
-
-
 export const OFFSET_LIFE_CHAT = 10;
 
 export const YOUTUBE_VIDEOS_API =
-  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=16&regionCode=AM&key=" //+
-  //GOOGLE_API_KEY;
+  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=5&regionCode=AM&key=" //+
+  
 
 export const CATEGORIES =
-  "https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=AM&key=" + API_KEY_CATEGORIES
+  "https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=AM&key=" +process.env.REACT_APP_API_KEY_CATEGORIES;
 
 
 

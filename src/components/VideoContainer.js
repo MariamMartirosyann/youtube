@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   YOUTUBE_VIDEOS_API,
-  API_KEY_CATEGORIES_ID,
   buttonsId,
 } from "./../utils/constants";
 import { switchKeyValue } from "../utils/helper";
@@ -17,7 +16,6 @@ const VideoContainer = () => {
   const category = useSelector((store) => store.category.categoryName);
   const[err, setErr]=useState(null)
  
-console.log(videos,"videos")
   const dispatch = useDispatch();
   //console.log(category, "category click");
   const GOOGLE_API_KEY = useAPI();
@@ -30,7 +28,7 @@ console.log(videos,"videos")
     "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=AM&videoCategoryId=" +
     CategoryId +
     "&key=" +
-    API_KEY_CATEGORIES_ID;
+   process.env.REACT_APP_API_KEY_CATEGORIES_ID;
 
   const GET_DATA_URL = CategoryId ? GET_BY_CATIGORY_ID : YOUTUBE_VIDEOS_API+ GOOGLE_API_KEY;
 
@@ -53,6 +51,7 @@ console.log(videos,"videos")
       setVideos(VideoMockData);
     }
   };
+
 if(!getVideos){
   setVideos(VideoMockData)
 }
