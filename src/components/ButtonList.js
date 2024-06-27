@@ -4,6 +4,7 @@ import { CATEGORIES } from "../utils/constants";
 import { setError } from "../utils/appSlice";
 import { useDispatch } from "react-redux";
 import { updateCategory, cleanCategory } from "../utils/categorySlice";
+import { ButtonsMockData } from "../utils/mockData/MockDataButtons";
 
 
 const ButtonList = () => {
@@ -14,17 +15,18 @@ const ButtonList = () => {
 
   const dispatch = useDispatch();
 
-  //console.log(buttons, "buttons");
+  console.log(buttons, "buttons");
 
 
   const getButtons = async () => {
     try {
       const data = await fetch(CATEGORIES);
+      
       if (!data.ok) {
         throw new Error(
           "Network response was not ok. Error status: " +
             data.status +
-            "getButtons"
+            "getButtons" 
         );
       }
       const json = await data.json();
@@ -35,6 +37,11 @@ const ButtonList = () => {
       setErr(error);
     }
   };
+  
+  if(!getButtons){
+    setButtons([ButtonsMockData.slice(0, 5)])
+    console.log("Youtube Data API KEY is expired, it will be valid again after 24 hours, meanwhile will be rendered mock data")
+  }
 
   const findCategoryId = () => {
     dispatch(updateCategory(category));

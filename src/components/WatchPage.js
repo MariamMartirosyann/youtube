@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeMenu, sideListVidos } from "../utils/appSlice";
 import { useSearchParams, Link } from "react-router-dom";
-import { YOUTUBE_VIDEOS_API,API_KEY_COMENTS } from "../utils/constants";
+
 import VideoCard from "./VideoCard";
 import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
@@ -28,7 +28,7 @@ const WatchPage = () => {
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=" +
     videoId +
     "&key=" +
-    API_KEY_COMENTS;
+    process.env.REACT_APP_KEY_COMENTS;
 
  
 
@@ -63,7 +63,7 @@ const WatchPage = () => {
 
   const getVideos = async () => {
     try {
-      const data = await fetch(YOUTUBE_VIDEOS_API+GOOGLE_VIDEO_API_KEY);
+      const data = await fetch( process.env.REACT_APP_YOUTUBE_VIDEOS_LINK+GOOGLE_VIDEO_API_KEY);
       if (!data.ok) {
         throw new Error(
           "Network response was not ok. Error status: " +
