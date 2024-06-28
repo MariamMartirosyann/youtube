@@ -6,13 +6,14 @@
 .pnp.js
 .env
 .env.development
-.env.production
+
 
 # testing
 /coverage
 
 # production
 /build
+.env.production
 
 # misc
 .DS_Store

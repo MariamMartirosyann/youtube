@@ -9,14 +9,14 @@ const VideoCard = ({ info, live=false }) => {
   const { snippet, statistics } = info;
   const { channelTitle, title, thumbnails, publishedAt } = snippet;
   return sideList ? (
-    <div className="p-2 m-2 flex flex-row ">
+    <div className="p-2 m-2 flex md:flex-row flex-col content-center">
       <img
-        className="w-1/2  rounded-lg mr-3"
+        className="md:w-1/2 w-[100%] rounded-lg mr-3"
        
         alt="thumbnail"
         src={thumbnails?.medium?.url}
       />
-      <ul className="w-1/2">
+      <ul className="md:w-1/2 w-[100%]">
         <li className=" text-sm">{title?.slice(0,50)}</li>
         <li>{channelTitle}</li>
         <li>{statistics?.viewCount} veiws</li>
