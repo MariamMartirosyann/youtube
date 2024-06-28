@@ -15,7 +15,7 @@ const ButtonList = () => {
 
   const dispatch = useDispatch();
 
-  console.log(buttons, "buttons");
+ 
 
 
   const getButtons = async () => {

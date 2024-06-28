@@ -1,23 +1,52 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import SearchVideoCard from "./SearchVideoCard";
+import { useEffect, useState } from "react";
 
-const SearchVideoList = () => {
+function SearchVideoList() {
+  const [searchParams] = useSearchParams();
+  const [data, setData] = useState([]);
+  
 
-  const seachVideoList = useSelector((store) => store.chosenQuery);
- // console.log(seachVideoList[seachVideoList.length - 1],"info")
+  const chosenQuery = searchParams.get("search_query");
 
-  if (!seachVideoList[seachVideoList.length - 1]) return;
+  const YOUTUBE_SEARCH_BY_QUERY_API =
+    "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
+    chosenQuery +
+    "%20&videoType=any&key=" +
+    process.env.REACT_APP_API_KEY4;
+
+  const getChosenQuery = async () => {
+    try {
+      const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
+      const json = await data.json();
+
+      setData(json.items);
+    } catch (error) {
+      throw new Error(
+        "Network response was not ok. Error status: " +
+        error.status +
+          "getChosenQuery"
+         
+      );
+      
+    }
+  };
+
+  useEffect(() => {
+    getChosenQuery();
+  }, []);
+
+  if (!chosenQuery ||!data) return;
   return (
     <div>
-      {seachVideoList[seachVideoList.length - 1]?.map((v) => (
-       <Link to={"/watch?v=" + v?.id?.videoId} key={v?.id?.videoId}>
+      {data?.map((v) => (
+        <Link to={"/watch?v=" + v?.id?.videoId} key={v?.id?.videoId}>
           <SearchVideoCard data={v} />
         </Link>
       ))}
     </div>
   );
-};
+}
 
-export default SearchVideoList;
+export default React.memo(SearchVideoList);

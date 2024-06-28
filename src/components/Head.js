@@ -28,7 +28,7 @@ const Head = () => {
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
     chosenQuery +
     "%20&videoType=any&key=" +
-    process.env.REACT_APP_API_KEY1_SUGGESTIONS;
+    process.env.REACT_APP_API_KEY4
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -73,13 +73,6 @@ const Head = () => {
   const getChosenQuery = async () => {
     try {
       const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
-      if (!data.ok) {
-        throw new Error(
-          "Network response was not ok. Error status: " +
-            data.status +
-            "getChosenQuery"
-        );
-      }
       const json = await data.json();
       //console.log("search query list", json.items);
       dispatch(chosenQueryResults(json.items));
@@ -87,9 +80,12 @@ const Head = () => {
       setSearchSuggestions([]);
       //dispatch(resetChosenQueryResults());
     } catch (error) {
-      console.log(error, "error");
-      dispatch(setError(error.message));
-      setErr(error);
+      throw new Error(
+        "Network response was not ok. Error status: " +
+          error.status +
+          "getChosenQuery"
+      );
+      
     }
   };
 

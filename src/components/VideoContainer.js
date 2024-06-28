@@ -61,7 +61,7 @@ if(!getVideos){
 
   if (!videos) return;
   return (
-    <div className=" flex flex-wrap col-span-11 lg:col-span-9 md:col-span-8  sm:ml-25">
+    <div className=" flex flex-wrap col-span-11 lg:col-span-9 md:col-span-8  sm:ml-25  px-auto">
       {category === "Live"
         ? videos.reverse().map((video) => (
             <Link to={"/watch?v=" + video.id} key={video.id}>
