@@ -1,47 +1,41 @@
 import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { CATEGORIES } from "../utils/constants";
-import { setError } from "../utils/appSlice";
+
 import { useDispatch } from "react-redux";
 import { updateCategory, cleanCategory } from "../utils/categorySlice";
 import { ButtonsMockData } from "../utils/mockData/MockDataButtons";
-
 
 const ButtonList = () => {
   const [buttons, setButtons] = useState([]);
   const [category, setCategory] = useState("");
   const [activeButton, setActiveButton] = useState("All");
-  const [err, setErr] = useState(null);
+
 
   const dispatch = useDispatch();
 
- 
-
-
   const getButtons = async () => {
     try {
-      const data = await fetch(CATEGORIES);
+
       
+      const data = await fetch(CATEGORIES);
+
       if (!data.ok) {
-        throw new Error(
-          "Network response was not ok. Error status: " +
-            data.status +
-            "getButtons" 
-        );
+        throw new Error("Failed to fetch data");
       }
       const json = await data.json();
-      setButtons(json?.items?.slice(0, 5));
+      setButtons(json?.items?.slice(0, 4));
+      if (!json) {
+        setButtons(ButtonsMockData.slice(0, 4));
+      }
     } catch (error) {
-      console.log(error, "error");
-      dispatch(setError(error.message));
-      setErr(error);
+      console.warn(
+        "An error occurred while fetching data. Using mock data as fallback.",
+        error
+      );
     }
   };
-  
-  if(!getButtons){
-    setButtons([ButtonsMockData.slice(0, 5)])
-    console.log("Youtube Data API KEY is expired, it will be valid again after 24 hours, meanwhile will be rendered mock data")
-  }
+
 
   const findCategoryId = () => {
     dispatch(updateCategory(category));
@@ -49,7 +43,6 @@ const ButtonList = () => {
   useEffect(() => {
     getButtons();
   }, []);
-
 
   useEffect(() => {
     findCategoryId();

@@ -9,6 +9,7 @@ import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
 import useVideoAPI from "../utils/useVideoAPI ";
 import { VideoMockData } from "../utils/mockData/MockData";
+import CommentsContainer from "./ComentsContainer";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -152,10 +153,10 @@ const WatchPage = () => {
           </ul>
 
           {!live
-            ? coments?.map((coment) => (
+            ? (!!coments?coments.map((coment) => (
                 <ComentPage key={coment.id} info={coment} />
-              ))
-            : null}
+              )):<CommentsContainer/>): null}
+          
         </div>
         <div className="">
           {live ? (

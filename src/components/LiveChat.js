@@ -9,7 +9,6 @@ const LiveChat = () => {
   const [liveMessage, setLiveMessage] = useState("");
 
   const chatMessages = useSelector((store) => store.chat.messages);
-  //console.log("chatMessages", chatMessages);
 
   useEffect(() => {
     const i = setInterval(() => {

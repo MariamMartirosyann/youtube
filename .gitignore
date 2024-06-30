@@ -6,6 +6,7 @@
 .pnp.js
 .env
 .env.development
+.env.production
 
 
 # testing
@@ -13,7 +14,7 @@
 
 # production
 /build
-.env.production
+
 
 # misc
 .DS_Store

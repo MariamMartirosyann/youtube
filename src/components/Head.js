@@ -4,7 +4,6 @@ import {
   toggleMenu,
   openSearchList,
   closeSearchList,
-  setError,
 } from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
 import {
@@ -28,7 +27,7 @@ const Head = () => {
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
     chosenQuery +
     "%20&videoType=any&key=" +
-    process.env.REACT_APP_API_KEY4
+    process.env.REACT_APP_API_KEY2
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -36,13 +35,9 @@ const Head = () => {
 
   const getSearchSuggestions = async () => {
     try {
-      const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+      const data = await fetch(YOUTUBE_SEARCH_API + searchQuery)
       if (!data.ok) {
-        throw new Error(
-          "Network response was not ok. Error status: " +
-            data.status +
-            "getSearchSuggestions"
-        );
+        throw new Error("Failed to fetch data");
       }
 
       const json = await data.json();
@@ -53,9 +48,11 @@ const Head = () => {
         })
       );
     } catch (error) {
-      console.log(error, "error");
-      dispatch(setError(error.message));
-      setErr(error);
+      console.warn(
+        "An error occurred while fetching data. Using mock data as fallback.",
+        error
+      );
+
     }
   };
 
@@ -68,24 +65,27 @@ const Head = () => {
     dispatch(resetChosenQueryResults());
     setSearchQuery("");
     setSearchSuggestions([]);
-    //console.log(event.target[0].value,"event")
+   ;
+    dispatch(resetChosenQueryResults());
+  
   };
   const getChosenQuery = async () => {
     try {
       const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
+      if (!data.ok) {
+        throw new Error("Failed to fetch data");
+      }
       const json = await data.json();
       //console.log("search query list", json.items);
       dispatch(chosenQueryResults(json.items));
       dispatch(openSearchList());
       setSearchSuggestions([]);
-      //dispatch(resetChosenQueryResults());
+      dispatch(resetChosenQueryResults());
     } catch (error) {
-      throw new Error(
-        "Network response was not ok. Error status: " +
-          error.status +
-          "getChosenQuery"
+      console.warn(
+        "An error occurred while fetching data.Searching videos without suggestions.",
+        error
       );
-      
     }
   };
 
@@ -164,6 +164,8 @@ const Head = () => {
                     onClick={() => {
                       setChosenQuery(s);
                       setSearchQuery(s);
+                      setSearchSuggestions([]);
+                    
                     }}
                   >
                     🔍{s}
