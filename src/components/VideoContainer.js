@@ -4,7 +4,7 @@ import { switchKeyValue } from "../utils/helper";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import useAPI from "../utils/useAPI";
+
 import {
   VideoMockData,
   PetsMockData,
@@ -20,7 +20,7 @@ const VideoContainer = () => {
   const category = useSelector((store) => store.category.categoryName);
   const dispatch= useDispatch()
 
-  const GOOGLE_API_KEY = useAPI();
+  const GOOGLE_API_KEY = process.env.REACT_APP_API_KEY;
   const a = switchKeyValue(buttonsId);
 
   const CategoryId = a[category];
@@ -29,21 +29,21 @@ const VideoContainer = () => {
     "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=AM&videoCategoryId=" +
     CategoryId +
     "&key=" +
-    process.env.REACT_APP_API_KEY_CATEGORIES_ID;
+    process.env.REACT_APP_API_KEY;
 
   const GET_DATA_URL = CategoryId
     ? GET_BY_CATIGORY_ID
-    : YOUTUBE_VIDEOS_API + GOOGLE_API_KEY;
+    : (YOUTUBE_VIDEOS_API + GOOGLE_API_KEY);
 
   const getVideos = async () => {
     try {
       const data = await fetch(GET_DATA_URL);
       
       const json = await data.json();
-      setVideos([json?.items]);
+      setVideos(json?.items);
       dispatch(addVideos(videos))
       if (!category) {
-        setVideos(MockDataForAll);
+        setVideos(VideoMockData);
       } else {
         if (category.includes("Pets")) {
           setVideos(PetsMockData);
@@ -52,7 +52,7 @@ const VideoContainer = () => {
         } else if (category.includes("Autos")) {
           setVideos(AutosMockData);
         } else if (category.includes("Film")) {
-          setVideos(VideoMockData);
+          setVideos(FilmsMockData);
         }
       }
     } catch (error) {
@@ -65,8 +65,6 @@ const VideoContainer = () => {
   };
 
 
-
-  
 
   useEffect(() => {
     getVideos();

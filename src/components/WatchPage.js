@@ -7,7 +7,7 @@ import VideoCard from "./VideoCard";
 import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
-import useVideoAPI from "../utils/useVideoAPI ";
+
 import { MockDataForAll, VideoMockData } from "../utils/mockData/MockData";
 import CommentsContainer from "./ComentsContainer";
 
@@ -30,7 +30,7 @@ const WatchPage = () => {
     "https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=" +
     videoId +
     "&key=" +
-    process.env.REACT_APP_KEY_COMENTS;
+    process.env.REACT_APP_API_KEY;
 
   const getComents = async () => {
     try {
