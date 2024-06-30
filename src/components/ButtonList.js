@@ -8,34 +8,18 @@ import { ButtonsMockData } from "../utils/mockData/MockDataButtons";
 
 const ButtonList = () => {
   const [buttons, setButtons] = useState([]);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState();
   const [activeButton, setActiveButton] = useState("All");
+
 
 
   const dispatch = useDispatch();
 
   const getButtons = async () => {
-    try {
-
-      
-      const data = await fetch(CATEGORIES);
-
-      if (!data.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const json = await data.json();
-      setButtons(json?.items?.slice(0, 4));
-      if (!json) {
+   
         setButtons(ButtonsMockData.slice(0, 4));
       }
-    } catch (error) {
-      console.warn(
-        "An error occurred while fetching data. Using mock data as fallback.",
-        error
-      );
-    }
-  };
-
+   
 
   const findCategoryId = () => {
     dispatch(updateCategory(category));

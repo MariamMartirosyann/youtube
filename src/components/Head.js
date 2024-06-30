@@ -42,6 +42,7 @@ const Head = () => {
 
       const json = await data.json();
       setSearchSuggestions(json[1]);
+      if(!json){setSearchSuggestions(null)}
       dispatch(
         cacheResults({
           [searchQuery]: json[1],
@@ -69,25 +70,51 @@ const Head = () => {
     dispatch(resetChosenQueryResults());
   
   };
-  const getChosenQuery = async () => {
-    try {
-      const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
-      if (!data.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const json = await data.json();
+
+
+ const handleFetchError = (error, response) => {
+  if (response && response.status === 403) {
+    console.warn(
+      "403 Forbidden: API key is expired or access is denied. Searching videos without suggestions.",
+      error
+    );
+  } else {
+    console.warn(
+      "An error occurred while fetching data. Searching videos without suggestions.",
+      error
+    );
+  }
+
+ 
+  dispatch(chosenQueryResults([]));
+  dispatch(openSearchList());
+  setSearchSuggestions([]);
+  dispatch(resetChosenQueryResults());
+};
+
+const getChosenQuery = async () => {
+  try {
+    const response = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
+
+    if (!response.ok) {
+      throw { message: "Failed to fetch data", response };
+    }
+
+    const json = await response.json();
+
+    if (json) {
       //console.log("search query list", json.items);
       dispatch(chosenQueryResults(json.items));
       dispatch(openSearchList());
       setSearchSuggestions([]);
       dispatch(resetChosenQueryResults());
-    } catch (error) {
-      console.warn(
-        "An error occurred while fetching data.Searching videos without suggestions.",
-        error
-      );
     }
-  };
+    return;
+  } catch (error) {
+    handleFetchError(error, error.response);
+  }
+};
+
 
   useEffect(() => {
     dispatch(closeSearchList());

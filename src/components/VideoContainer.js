@@ -3,7 +3,7 @@ import { YOUTUBE_VIDEOS_API, buttonsId } from "./../utils/constants";
 import { switchKeyValue } from "../utils/helper";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useAPI from "../utils/useAPI";
 import {
   VideoMockData,
@@ -11,11 +11,14 @@ import {
   MusicMockData,
   AutosMockData,
   FilmsMockData,
+  MockDataForAll
 } from "../utils/mockData/MockData";
+import { addVideos, setError } from "../utils/appSlice";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
   const category = useSelector((store) => store.category.categoryName);
+  const dispatch= useDispatch()
 
   const GOOGLE_API_KEY = useAPI();
   const a = switchKeyValue(buttonsId);
@@ -35,13 +38,12 @@ const VideoContainer = () => {
   const getVideos = async () => {
     try {
       const data = await fetch(GET_DATA_URL);
-      if (!data.ok) {
-        throw new Error("Failed to fetch data");
-      }
+      
       const json = await data.json();
-      setVideos(json?.items);
+      setVideos([json?.items]);
+      dispatch(addVideos(videos))
       if (!category) {
-        setVideos(VideoMockData);
+        setVideos(MockDataForAll);
       } else {
         if (category.includes("Pets")) {
           setVideos(PetsMockData);
@@ -50,16 +52,21 @@ const VideoContainer = () => {
         } else if (category.includes("Autos")) {
           setVideos(AutosMockData);
         } else if (category.includes("Film")) {
-          setVideos(FilmsMockData);
+          setVideos(VideoMockData);
         }
       }
     } catch (error) {
+     //dispatch(setError(error))
       console.warn(
         "An error occurred while fetching data. Using mock data as fallback.",
         error
       );
     }
   };
+
+
+
+  
 
   useEffect(() => {
     getVideos();

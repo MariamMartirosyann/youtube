@@ -8,7 +8,7 @@ import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
 import useVideoAPI from "../utils/useVideoAPI ";
-import { VideoMockData } from "../utils/mockData/MockData";
+import { MockDataForAll, VideoMockData } from "../utils/mockData/MockData";
 import CommentsContainer from "./ComentsContainer";
 
 const WatchPage = () => {
@@ -20,9 +20,10 @@ const WatchPage = () => {
   const [err, setErr] = useState(null);
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
-  const GOOGLE_VIDEO_API_KEY=useVideoAPI()
 
   const islive = useSelector((store) => store.category.categoryName);
+  const storedVideos = useSelector((store) => store.app.videos);
+
   const live = islive === "Live" ? true : false;
 
   const COMENTS_API =
@@ -30,8 +31,6 @@ const WatchPage = () => {
     videoId +
     "&key=" +
     process.env.REACT_APP_KEY_COMENTS;
-
- 
 
   const getComents = async () => {
     try {
@@ -52,62 +51,35 @@ const WatchPage = () => {
     }
   };
 
-  const getVideo = async () => {
-    const data1 = await fetch(
-      "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id="+videoId +"&key=" +
-      GOOGLE_VIDEO_API_KEY
-    );
-    const json1 = await data1?.json();
-    setVideo(json1?.items[0]);
-  };
-
-
   const getVideos = async () => {
-    try {
-      const data = await fetch( process.env.REACT_APP_YOUTUBE_VIDEOS_LINK+GOOGLE_VIDEO_API_KEY);
-      if (!data.ok) {
-        throw new Error(
-          "Network response was not ok. Error status: " +
-            data.status +
-            "getVideos"
-        );
-      }
-      const json = await data?.json();
-      const filteredVideos = json?.items?.filter(
+    if (storedVideos) {
+      const filteredVideos = storedVideos.filter(
         (video) => video.id !== videoId
       );
-      const mianVideo = json?.items?.find((video) => video.id === videoId);
-      setVideos(filteredVideos);
-      setBigVideo(mianVideo);
-    } catch (error) {
-      console.log(error, "error");
-      dispatch(setError(error.message));
-      setErr(error);
+      const mianVideo = storedVideos?.find((video) => video.id === videoId);
 
-      const filteredVideos = VideoMockData.filter(
-        (video) => video.id !== videoId
-      );
-      const mianVideo = VideoMockData.find((video) => video.id === videoId);
       setVideos(filteredVideos);
       setBigVideo(mianVideo);
     }
+    const filteredVideos = VideoMockData.filter(
+      (video) => video.id !== videoId
+    );
+    const mianVideo = VideoMockData.find((video) => video.id === videoId);
+    setVideos(filteredVideos);
+    setBigVideo(mianVideo);
   };
-
- 
 
   useEffect(() => {
     dispatch(closeMenu());
     dispatch(sideListVidos());
     getComents();
-  
   }, []);
 
   useEffect(() => {
     getVideos();
-  }, [videoId]);
+  }, [videoId, storedVideos]);
 
   useEffect(() => {
-    getVideo();
     getComents();
   }, [videoId]);
 
@@ -127,15 +99,15 @@ const WatchPage = () => {
           ></iframe>
           <ul className=" text-lg w-600">
             <li className=" font-bold sm:text-lg my-4  text-xs">
-              {bigVideo ? bigVideo?.snippet.title:video?.snippet?.title}
+              {bigVideo ? bigVideo?.snippet.title : null}
             </li>
             <li className="sm:text-base text-xs">
-              {bigVideo ? bigVideo?.snippet.channelTitle:video?.snippet?.channelTitle}{" "}
+              {bigVideo ? bigVideo?.snippet.channelTitle : null}{" "}
               <button className=" bg-black  text-white py-2 sm:px-4 px-1 lg:ml-12 ml-2 rounded-full  sm:text-base text-xs">
                 Subscribe
               </button>
               <button className=" bg-gray-200  border-gray-700 py-2 md:px-8 px-3 lg:ml-12 ml-2 rounded-l-full sm:text-base text-xs">
-                👍🏻 {bigVideo? bigVideo?.statistics.likeCount :video?.statistics?.likeCount}
+                👍🏻 {bigVideo ? bigVideo?.statistics.likeCount : null}
               </button>
               <button className=" bg-gray-200    border-gray-700 py-2 md:px-4  px-1 rounded-r-full sm:text-base text-xs">
                 👎🏻
@@ -145,18 +117,22 @@ const WatchPage = () => {
               </button>
             </li>
             <li className="sm:text-base text-xs">
-              {bigVideo ?bigVideo?.statistics?.viewCount : video?.statistics?.viewCount + " veiws"}
+              {bigVideo ? bigVideo?.statistics?.viewCount : null + " veiws"}
             </li>
             {!live ? (
               <li className="  font-bold text-lg hidden xl:block">Coments:</li>
             ) : null}
           </ul>
 
-          {!live
-            ? (!!coments?coments.map((coment) => (
-                <ComentPage key={coment.id} info={coment} />
-              )):<CommentsContainer/>): null}
-          
+          {!live ? (
+            coments && coments.length > 0 ? (
+              coments.map((comment) => (
+                <ComentPage key={comment.id} info={comment} />
+              ))
+            ) : (
+              <CommentsContainer />
+            )
+          ) : null}
         </div>
         <div className="">
           {live ? (

@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 
 const useAPI = () => {
   const error = useSelector((store) => store.app.isError);
-  const [key, setKey] = useState(process.env.REACT_APP_API_KEY3);
+  const [key, setKey] = useState(process.env.REACT_APP_API_KEY5);
 
   const changeKey = () => {
     if (error) {
-      setKey(process.env.REACT_APP_API_KEY2);
+      setKey(process.env.REACT_APP_API_KEY5);
     }
   };
 
   useEffect(() => {
     changeKey();
-  }, [key, error]);
-  //console.log(key, "GOOGLE_API_KEY");
+  }, [ error]);
+  console.log(key, "GOOGLE_API_KEY");
   return key;
 };
 
