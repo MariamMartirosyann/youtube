@@ -19,15 +19,19 @@ function SearchVideoList() {
   const getChosenQuery = async () => {
     try {
       const data = await fetch(YOUTUBE_SEARCH_BY_QUERY_API);
+      if (!data.ok) {
+        throw new Error("Failed to fetch data");
+      }
       const json = await data.json();
 
       setData(json.items);
+      if(!json){
+        setData([])
+      }
     } catch (error) {
-      throw new Error(
-        "Network response was not ok. Error status: " +
-        error.status +
-          "getChosenQuery"
-         
+      console.warn(
+        "An error occurred while fetching data.Searching videos without suggestions.",
+        error
       );
       
     }

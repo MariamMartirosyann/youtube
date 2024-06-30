@@ -2823,3 +2823,4 @@ export const PetsMockData= [
   ]
   
 
+export const MockDataForAll=[...VideoMockData,...FilmsMockData,...MusicMockData,...PetsMockData]
