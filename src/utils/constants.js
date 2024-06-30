@@ -6,7 +6,7 @@ export const YOUTUBE_VIDEOS_API =
   
 
 export const CATEGORIES =
-  "https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=AM&key=" +process.env.REACT_APP_API_KEY_CATEGORIES;
+  "https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=AM&key=" +process.env.REACT_APP_API_KEY;
 
 
 

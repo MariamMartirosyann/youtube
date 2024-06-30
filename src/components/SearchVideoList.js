@@ -14,7 +14,7 @@ function SearchVideoList() {
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
     chosenQuery +
     "%20&videoType=any&key=" +
-    process.env.REACT_APP_API_KEY2;
+    process.env.REACT_APP_API_KEY;
 
   const getChosenQuery = async () => {
     try {
