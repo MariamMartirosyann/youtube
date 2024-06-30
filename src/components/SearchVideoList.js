@@ -14,7 +14,7 @@ function SearchVideoList() {
     "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=" +
     chosenQuery +
     "%20&videoType=any&key=" +
-    process.env.REACT_APP_API_KEY4;
+    process.env.REACT_APP_API_KEY2;
 
   const getChosenQuery = async () => {
     try {
@@ -35,7 +35,7 @@ function SearchVideoList() {
 
   useEffect(() => {
     getChosenQuery();
-  }, []);
+  }, [chosenQuery]);
 
   if (!chosenQuery ||!data) return;
   return (
@@ -49,4 +49,4 @@ function SearchVideoList() {
   );
 }
 
-export default React.memo(SearchVideoList);
+export default SearchVideoList;

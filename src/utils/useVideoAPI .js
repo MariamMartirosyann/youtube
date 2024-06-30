@@ -16,7 +16,6 @@ const useVideoAPI = () => {
   };
 
   useEffect(() => {changeKey()}, [key, error]);
-  //console.log(key, "GOOGLE_API_KEY");
   return key;
 };
 
