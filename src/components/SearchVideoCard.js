@@ -10,7 +10,7 @@ const SearchVideoCard = ({ data }) => {
         src={data?.snippet?.thumbnails?.high?.url}
       />
 
-      <ul className="ml-5 md:w-1/2 w-[100%]">
+      <ul className="ml-5 md:w-1/2 w-[100%] ">
         <li className=" md:font-bold font-normal  py-2">
           {data?.snippet?.title}
         </li>
