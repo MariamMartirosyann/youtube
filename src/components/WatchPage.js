@@ -8,14 +8,13 @@ import ComentPage from "./ComentPage";
 import LiveChat from "./LiveChat";
 import { setError } from "../utils/appSlice";
 
-import { MockDataForAll, VideoMockData } from "../utils/mockData/MockData";
+import { VideoMockData } from "../utils/mockData/MockData";
 import CommentsContainer from "./ComentsContainer";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
   const [videos, setVideos] = useState([]);
-  const [video, setVideo] = useState();
-  const [bigVideo, setBigVideo] = useState();
+
   const [coments, setComents] = useState([]);
   const [err, setErr] = useState(null);
   const videoId = searchParams.get("v");
@@ -23,6 +22,11 @@ const WatchPage = () => {
 
   const islive = useSelector((store) => store.category.categoryName);
   const storedVideos = useSelector((store) => store.app.videos);
+  const bigVideo = storedVideos?.find((video) => video.id === videoId);
+
+  if (!storedVideos) {
+    bigVideo = VideoMockData.find((video) => video.id === videoId);
+  }
 
   const live = islive === "Live" ? true : false;
 
@@ -56,17 +60,13 @@ const WatchPage = () => {
       const filteredVideos = storedVideos.filter(
         (video) => video.id !== videoId
       );
-      const mianVideo = storedVideos?.find((video) => video.id === videoId);
 
       setVideos(filteredVideos);
-      setBigVideo(mianVideo);
     }
     const filteredVideos = VideoMockData.filter(
       (video) => video.id !== videoId
     );
-    const mianVideo = VideoMockData.find((video) => video.id === videoId);
     setVideos(filteredVideos);
-    setBigVideo(mianVideo);
   };
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const WatchPage = () => {
 
   useEffect(() => {
     getVideos();
-  }, [videoId, storedVideos]);
+  }, [videoId, storedVideos, videos]);
 
   useEffect(() => {
     getComents();
@@ -117,7 +117,7 @@ const WatchPage = () => {
               </button>
             </li>
             <li className="sm:text-base text-xs">
-              {bigVideo ? bigVideo?.statistics?.viewCount : null + " veiws"}
+              {bigVideo ? bigVideo?.statistics?.viewCount + " veiws" : null}
             </li>
             {!live ? (
               <li className="  font-bold text-lg hidden xl:block">Coments:</li>
@@ -130,11 +130,11 @@ const WatchPage = () => {
                 <ComentPage key={comment.id} info={comment} />
               ))
             ) : (
-              <CommentsContainer />
+              <CommentsContainer className="md:block none" />
             )
           ) : null}
         </div>
-        <div className="">
+        <div className="xl:w-[30%] w-[100%] xl:mt-0 mt-10">
           {live ? (
             <div className="xl:w-[600px] w-[100%]">
               <LiveChat />
@@ -148,7 +148,7 @@ const WatchPage = () => {
               ))}
             </div>
           )}
-        </div>
+        </div> 
       </div>
     </>
   );
